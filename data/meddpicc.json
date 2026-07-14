@@ -1,0 +1,570 @@
+{
+  "version": "v1",
+  "scoring": {
+    "scale_per_element": "0 = absolute unknown; 1 = hunch, single data point; 2 = confirmed by name and source; 3 = verified by a known human inside the account",
+    "bands": {
+      "0-6": "Unqualified",
+      "7-12": "Early",
+      "13-18": "Qualified",
+      "19-24": "Forecastable"
+    },
+    "frame": "Expect 2-6/24. That is CORRECT. Nothing here is forecastable until someone inside the account has told me it's true."
+  },
+  "accounts": {
+    "A001_Qualcomm": {
+      "Metrics": {
+        "score": 1,
+        "KNOWN": {
+          "why_now": "Apr 2026 SD layoffs — engineering org is being cost-engineered",
+          "macrotrend_employees_2026_06_30": 52000
+        },
+        "ASSUMPTION": "If tools procurement is authorized, the budget is in the IT line, not the engineering R&D line. Engineering R&D is shipping silicon, not platforms.",
+        "HOW_I_TEST": {
+          "question": "Of the eval-of-agents job posting, is reporting into IT Procurement or into Engineering R&D?",
+          "who_answers": "Head of Application Security"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 1,
+        "KNOWN": {
+          "careers_page": "https://www.qualcomm.com/company/careers",
+          "fortune_seed_claim": "July 2026 CIO quote cited in seed; URL NOT VERIFIED in this research pass"
+        },
+        "ASSUMPTION": "If Fortune URL surfaces, score increases to 2. If Fortune URL surfaces AND a verified LinkedIn profile comes with it, score increases to 3.",
+        "HOW_I_TEST": {
+          "question": "Search Fortune.com archives for 'Qualcomm CIO agentic AI' between 2026-06-01 and 2026-08-01.",
+          "who_answers": "self before outreach"
+        }
+      },
+      "Decision_Criteria": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Decision criteria are not yet defined for tooling because no materialized req is visible.",
+        "LOSING_CRITERION": "If Qualcomm's definition of winning excludes a third-party agent that holds proprietary source code off-premise, Factory loses. Source-code-on-premise is a likely Qualcomm line.",
+        "HOW_I_TEST": {
+          "question": "In the LinkedIn agentic-eval engineer posting language, is on-prem / on-VPC explicitly required?",
+          "who_answers": "Head of Agentic Platform Evaluation"
+        }
+      },
+      "Decision_Process": {
+        "score": 1,
+        "KNOWN": {
+          "seed_signal_april_2026_layoff_concurrent_with_eval_posting": "apparent"
+        },
+        "ASSUMPTION": "Decision process looks spearheaded from engineering R&D with indirect CIO influence; no procurement committee yet apparent.",
+        "HOW_I_TEST": {
+          "question": "Has anyone from Infrastructure Procurement commented publicly on the agentic-eval posting?",
+          "who_answers": "self before outreach"
+        }
+      },
+      "Paper_Process": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Paper process not surfaced at all.",
+        "LOSING_CRITERION": "Master Service Agreement template at Qualcomm probably tolerates AI-vendor addenda poorly — a likely friction point once identified.",
+        "HOW_I_TEST": {
+          "question": "Search public Qualcomm MSA filings or Finance disclosures for tool-buy language.",
+          "who_answers": "self before outreach"
+        }
+      },
+      "Identify_Pain": {
+        "score": 2,
+        "KNOWN": {
+          "public_pain_april_2026_layoffs": "yes",
+          "public_pain_linkedin_agentic_eval_posting": "yes"
+        },
+        "ASSUMPTION": "Pain is engineering capacity (layoff-induced) rather than procurement efficiency. The eval hiring is a tell: defensive, not offensive.",
+        "HOW_I_TEST": {
+          "question": "Does the LinkedIn posting language describe replacing what humans used to do, or augmenting what humans still do?",
+          "who_answers": "Head of Agentic Platform Evaluation"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "No champion yet. Public pain sits at the agentic-eval post — the post is the seed, not a champion.",
+        "HOW_I_TEST": {
+          "question": "Has any Qualcomm engineering manager publicly posted/reposted/sharinked the eval-eng job posting in a positive-light context?",
+          "who_answers": "self before outreach"
+        }
+      },
+      "Competition": {
+        "score": 1,
+        "KNOWN": {
+          "nvidia_analogue": "named in https://www.idlen.io/news/factory-ai-150-million-1-5-billion-droids-coding-ag 2026-04-22 as a Factory customer"
+        },
+        "ASSUMPTION": "Higher likelihood is do-nothing-plus-hire-some-eval-engineers more than Copilot/Cursor deployment. Qualcomm is not a known Copilot enterprise customer shape.",
+        "COMPETITION_TYPE": "(d) do nothing / hire more eval engineers",
+        "HOW_I_TEST": {
+          "question": "Has any Qualcomm post named either Copilot or Cursor as their agent platform?",
+          "who_answers": "self before outreach"
+        }
+      },
+      "total_score": 6,
+      "band": "Unqualified",
+      "BIGGEST_UNKNOWN": "Champion — until a public technical champion emerges, score stays at the floor. Even with a single name, the band holds."
+    },
+    "A002_DaVita": {
+      "Metrics": {
+        "score": 2,
+        "KNOWN": {
+          "live_req": "https://careers.davita.com/job/R0466819/Sr-Director-of-Transformation (2026-07-06)",
+          "mirrored_on": [
+            "https://www.builtincolorado.com/job/sr-director-transformation/7368556",
+            "https://www.theladders.com/job/sr-director-of-transformation-davita-reno-nv_8…",
+            "https://www.tealhq.com/job/sr-director-of-transformation_7ea1ad48950af2141890…"
+          ],
+          "req_scope": "Multi-year migration of legacy revenue-cycle apps to GCP",
+          "salary_band": "$129,000-$205,000"
+        },
+        "ASSUMPTION": "Salary band puts the role at senior management, not VP. Budget category implies $50M/year platform spend, conservative.",
+        "HOW_I_TEST": {
+          "question": "DaVita 10-K IT spend / run-rate category for 'cloud migration'.",
+          "who_answers": "self — DaVita is NYSE-traded; 10-K has the line"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 3,
+        "KNOWN": {
+          "verified_cin_investor_press_release_2024_05_13": "https://investors.davita.com/2024-05-13-davita-appoints-new-chief-information…",
+          "verified_linkedin_surfaced_in_current_search": "https://www.linkedin.com/in/mnaras/"
+        },
+        "ASSUMPTION": "Madhu owns global IT procurement, Sr Director reports into him.",
+        "HOW_I_TEST": {},
+        "VERDICT": "Score stays at 3 until direct conversation tells me otherwise."
+      },
+      "Decision_Criteria": {
+        "score": 1,
+        "KNOWN": {
+          "open_req_language_gcp_centric": "GCP named explicitly in the req"
+        },
+        "ASSUMPTION": "Decision criteria still forming — Sr Director not seated yet, so the criteria are Madhu's existing CMS/HIPAA review + new GCP-native tooling evaluation.",
+        "LOSING_CRITERION": "If Factory is positioned as 'we replace what SI partners do' (HCLTech / Cognizant / Accenture), DaVita loses interest immediately. Pitch must frame Factory as augmenting the SI.",
+        "HOW_I_TEST": {
+          "question": "Does DaVita currently have an existing SI partner for the GCP migration?",
+          "who_answers": "Madhu Narasimhan"
+        }
+      },
+      "Decision_Process": {
+        "score": 1,
+        "KNOWN": {
+          "sr_director_not_yet_seated": true
+        },
+        "ASSUMPTION": "Decision process will be Sr Director + Madhu + IT governance + HIPAA review once Sr Director is seated; likely 60-90 day vendor-risk review after that.",
+        "HOW_I_TEST": {
+          "question": "When the Sr Director starts, what is the first vote they chair?",
+          "who_answers": "Madhu Narasimhan"
+        }
+      },
+      "Paper_Process": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "DaVita as NYSE-traded healthcare has a standardized Procurement + IT risk review,",
+        "LOSING_CRITERION": "Any procurement agreement that requires unbounded source-code escrow may not pass DaVita's HIPAA review on first pass.",
+        "HOW_I_TEST": {
+          "question": "Does DaVita publish a vendor-data-handling policy?",
+          "who_answers": "self"
+        }
+      },
+      "Identify_Pain": {
+        "score": 2,
+        "KNOWN": {
+          "live_req_evidence": "Multi-year GCP migration of legacy revenue-cycle apps",
+          "public_pain_proxy_dialysis_apps_complexity": "yes (revenue-cycle, scheduling, billing = dialysis-unit scheduling is non-trivial)"
+        },
+        "ASSUMPTION": "Pain is well-defined inside DaVita; this isn't a fishing expedition.",
+        "HOW_I_TEST": {
+          "question": "Of the legacy revenue-cycle apps, which is the most painful migration target?",
+          "who_answers": "Sr Director, Transformation — once seated"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "No champion yet — Sr Director will BE the program owner once seated. Until that person is in seat, the role of 'champion' is essentially vacant.",
+        "HOW_I_TEST": {
+          "question": "Once Sr Director is seated, who at VP-level above the role is the executive sponsor?",
+          "who_answers": "self — observe org chart refresh after the seat is filled"
+        }
+      },
+      "Competition": {
+        "score": 1,
+        "KNOWN": {
+          "hunclade_built_in_colorado_mirror_of_req": "yes"
+        },
+        "ASSUMPTION": "Most likely competitor shape is the existing SI partner (HCLTech / Cognizant / Accenture). Less likely is a direct Copilot/Cursor deployment given the GCP-first framing.",
+        "COMPETITION_TYPE": "(b) SI holding the budget",
+        "HOW_I_TEST": {
+          "question": "Who in DaVita is on the SI partner bench?",
+          "who_answers": "Madhu Narasimhan"
+        }
+      },
+      "total_score": 11,
+      "band": "Early",
+      "BIGGEST_UNKNOWN": "Champion — until Sr Director is seated, the seat is empty. Score ceiling until then."
+    },
+    "A003_ResMed": {
+      "Metrics": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Industry-typical $20-50M/year IT spend at this employee count. No seeded public metric.",
+        "HOW_I_TEST": {
+          "question": "ResMed 10-K for FY-end June 2026 — 'cloud' line.",
+          "who_answers": "self — ResMed is NYSE-traded"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 1,
+        "KNOWN": {
+          "verified_cto_linkedin_surfaced_in_current_search": "https://www.linkedin.com/in/urvashityagi",
+          "bloomberg_bio_lists_her_as_Former_CTO": "https://www.bloomberg.com/profile/person/22688752"
+        },
+        "ASSUMPTION": "Tyagi the CTO is the platform owner; CIO role is separate and unverified.",
+        "HOW_I_TEST": {
+          "question": "Is Tyagi the CURRENT CTO, or has a successor been named?",
+          "who_answers": "self — verify via LinkedIn current headline or newsroom search"
+        }
+      },
+      "Decision_Criteria": {
+        "score": 0,
+        "KNOWN": {
+          "seed_specific_signal": "NO SIGNAL FOUND for traceable/auditable agentic workflow reqs"
+        },
+        "ASSUMPTION": "Decision criteria do not surface in public because a req-specific to the seed claim does not exist.",
+        "LOSING_CRITERION": "If criterion is FDA-validated AI requiring pre-market submission, Factory loses immediately; expect FDA-routined vendors — none current Factory customer fits that shape.",
+        "HOW_I_TEST": {
+          "question": "Does ResMed have a req matching 'agentic AI auditable workflow'?",
+          "who_answers": "self — re-run careers.resmed.com search monthly"
+        }
+      },
+      "Decision_Process": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Decision process is FDA-regulated life-sciences-vendor shaped; tools-vendor review is multi-quarter and likely driven through IT governance.",
+        "HOW_I_TEST": {
+          "question": "Does ResMed publish a Vendor Risk Management Policy?",
+          "who_answers": "self"
+        }
+      },
+      "Paper_Process": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "FDA-regulated vendor procurement + HIPAA-adjacent data handling; standard NYSE-traded paper process exists but the specific FDA-routined line does not.",
+        "LOSING_CRITERION": "MSAs that don't offer a clear data-residency option may fail FDA audit on first pass.",
+        "HOW_I_TEST": {
+          "question": "Does ResMed publish a Vendor Data Handling Policy?",
+          "who_answers": "self"
+        }
+      },
+      "Identify_Pain": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Pain not visible. The seed's specific claim (traceable/auditable workflows reqs) is `NO SIGNAL FOUND`.",
+        "HOW_I_TEST": {
+          "question": "Is there ANY public ResMed content on engineering workflow pain points?",
+          "who_answers": "self"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "No champion yet. No public champion candidate.",
+        "HOW_I_TEST": {
+          "question": "Has any ResMed engineer/leader publicly recommended a specific workflow-tool?",
+          "who_answers": "self"
+        }
+      },
+      "Competition": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Most likely competitor shape is do-nothing-conservative. Copilot deployment is plausible at ResMed but unconfirmed.",
+        "COMPETITION_TYPE": "(d) do nothing / hire more",
+        "HOW_I_TEST": {
+          "question": "Has ResMed post named either Copilot or Cursor as their agent platform?",
+          "who_answers": "self"
+        }
+      },
+      "total_score": 1,
+      "band": "Unqualified",
+      "BIGGEST_UNKNOWN": "Identify_Pain — the seed's own claim is unverified. Until the req surfaces, this band holds."
+    },
+    "A004_WesternUnion": {
+      "Metrics": {
+        "score": 2,
+        "KNOWN": {
+          "hcltech_partnership_release_2026_05_14": "https://www.hcltech.com/press-releases/western-union-forms-strategic-partners…",
+          "fintech_futures_publication_2026_05_14": "https://www.fintechfutures.com/ai-in-fintech/western-union-signs-ai-powered-o…"
+        },
+        "ASSUMPTION": "Multi-year contract; WU division IT spend line in 10-K available.",
+        "HOW_I_TEST": {
+          "question": "WU 10-K for IT-spend run-rate annually.",
+          "who_answers": "self — NYSE-traded"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 1,
+        "KNOWN": {
+          "hcltech_partnership_implies_a_counterpart": true
+        },
+        "ASSUMPTION": "Public CIO owns the IT-governance floor; the HCLTech partnership may carry its own elevated sponsor. Need to confirm.",
+        "HOW_I_TEST": {
+          "question": "What is the named CIO at Western Union?",
+          "who_answers": "self — NYSE 10-K will list a CIO; verify against press release counterparts"
+        }
+      },
+      "Decision_Criteria": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "Decision criteria for third-party tooling will be routed through the SI contract, not standalone.",
+        "LOSING_CRITERION": "If criteria require exclusive data residency in HCLTech-managed environments, Factory loses.",
+        "HOW_I_TEST": {
+          "question": "Where in the HCLTech contract does decision-making for third-party tools live?",
+          "who_answers": "Head of Mainframe / Legacy Modernization"
+        }
+      },
+      "Decision_Process": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "Decision process will run through the SI partnership framework with an additional WU-internal review (governance, regulatory).",
+        "HOW_I_TEST": {
+          "question": "Does Western Union have an AI-vendor review committee?",
+          "who_answers": "VP Payments Engineering"
+        }
+      },
+      "Paper_Process": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "Regulated payments + cross-border = WU MSAs are heavier than typical; HCLTech agreement is the structural anchor.",
+        "LOSING_CRITERION": "Given cross-border payments perimeter, MSAs that don't handle data-residency cleanly won't pass regulatory review.",
+        "HOW_I_TEST": {
+          "question": "Does WU publish a Data Handling Policy?",
+          "who_answers": "self"
+        }
+      },
+      "Identify_Pain": {
+        "score": 2,
+        "KNOWN": {
+          "huwave_as400_mainframe_legacy": "publicly acknowledged",
+          "huwave_tools_spend_under_hcltech_program": "yes"
+        },
+        "ASSUMPTION": "Pain is well-defined: AS/400 mainframe is public. The HCLTech partnership is the response; tools spend is part of the modernization budget.",
+        "HOW_I_TEST": {
+          "question": "Of the AS/400 modernization, what is the most painful data-system target right now?",
+          "who_answers": "Head of Mainframe / Legacy Modernization"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "No WU-internal champion has surfaced. The HCLTech partnership is the visible sponsor, not a WU champion.",
+        "HOW_I_TEST": {
+          "question": "Has any WU engineering leader publicly supported the HCLTech partnership outside of formal press releases?",
+          "who_answers": "self"
+        }
+      },
+      "Competition": {
+        "score": 3,
+        "KNOWN": {
+          "hcltech_partnership_owns_budget_category": true,
+          "hcltech_as400_mainframe_modernization_service_line": "https://www.hcltech.com/mainframe-as400"
+        },
+        "ASSUMPTION": "HCLTech owns the tooling budget category. Copilot deployment at WU unverified but plausible.",
+        "COMPETITION_TYPE": "(b) SI holding the budget",
+        "HOW_I_TEST": {
+          "question": "Has any WU press material named either Copilot or Cursor as a parallel tool?",
+          "who_answers": "self"
+        }
+      },
+      "total_score": 11,
+      "band": "Early",
+      "BIGGEST_UNKNOWN": "Champion — even with an SI partnership named, no WU-internal champion has surfaced. Without one, the band holds."
+    },
+    "A005_LPLFinancial": {
+      "Metrics": {
+        "score": 2,
+        "KNOWN": {
+          "q1_2025_technology_updates_2025_05_20": "https://www.lpl.com/news-media/press-releases/lpl-financial-announces-q1-2025…",
+          "q1_2026_technology_updates_2026_04_06": "https://www.lpl.com/news-media/press-releases/lpl-financial-continues-to-trans…",
+          "platform_modernization_scope": "institutional, multi-quarter"
+        },
+        "ASSUMPTION": "Tools-procurement spend is material; FINRA-regulated perimeter implies heavy governance.",
+        "HOW_I_TEST": {
+          "question": "LPL 10-K — IT capital expenditure line.",
+          "who_answers": "self — NASDAQ-traded LPLA"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 1,
+        "KNOWN": {
+          "profile_magazine_interview_quotes_a_CIO": "https://profilemagazine.com/2024/cio-tech-beyond-widgets-lpl/ (2025-06-09) — personal name not in URL"
+        },
+        "ASSUMPTION": "CIO is the platform-modernization sponsor. Personal name is half-disclosed; verify.",
+        "HOW_I_TEST": {
+          "question": "Who is the CIO named in the LPL 10-K?",
+          "who_answers": "self — NYSE/Nasdaq proxy filing"
+        }
+      },
+      "Decision_Criteria": {
+        "score": 1,
+        "KNOWN": {
+          "finra_broker_dealer_perimeter": "yes",
+          "platform_modernization_posture": "strong"
+        },
+        "ASSUMPTION": "Decision criteria include FINRA-compliance, vendor-risk, GCC-handling. Likely governed by an AI-vendor review board.",
+        "LOSING_CRITERION": "If criteria require exclusive full-source-code escrow, Factory loses one option; if criteria require US-only data residency, Factory may hold up.",
+        "HOW_I_TEST": {
+          "question": "Who chairs the AI-vendor-review board and how is the criteria set?",
+          "who_answers": "CIO — once identified"
+        }
+      },
+      "Decision_Process": {
+        "score": 1,
+        "KNOWN": {
+          "hyderabad_gcc_public_feb_5_6_2026": "yes"
+        },
+        "ASSUMPTION": "Decision process involves app-developer staff inside the GCC + US governance review; multi-quarter cycle expected (9-12 months).",
+        "HOW_I_TEST": {
+          "question": "Does the AI-vendor-review board meet monthly or quarterly?",
+          "who_answers": "CIO — once identified"
+        }
+      },
+      "Paper_Process": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "LPL is FINRA-regulated broker-dealer; standard NYSE-traded paper process with FINRA overlay.",
+        "LOSING_CRITERION": "MSAs that expose LPL advisor data to undefined third parties fail FINRA review.",
+        "HOW_I_TEST": {
+          "question": "Does LPL publish a Vendor Risk Management Policy?",
+          "who_answers": "self"
+        }
+      },
+      "Identify_Pain": {
+        "score": 2,
+        "KNOWN": {
+          "platform_modernization_posture_public_year_over_year": "yes",
+          "wealth_management_perimeter_complexity": "yes"
+        },
+        "ASSUMPTION": "Pain is the modernization cycle itself; well-funded and well-publicized.",
+        "HOW_I_TEST": {
+          "question": "Which specific paint-point of the priority-tooling area is on the CIO's desk right now?",
+          "who_answers": "CIO — once identified"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Public champion not named; Profile Magazine interview almost-name-checks a CIO but does not surface a champion publicly.",
+        "HOW_I_TEST": {
+          "question": "Has any LPL platform-engineering leader publicly championed a third-party tool past the modernization post-cycle?",
+          "who_answers": "self"
+        }
+      },
+      "Competition": {
+        "score": 2,
+        "KNOWN": {
+          "hyderabad_gcc_announced_feb_5_6_2026": "https://timesofindia.indiatimes.com/city/hyderabad/lpl-financial-opens-global-capabilit… and https://www.hubbis.com/news/lpl-financial-opens-global-capability-centre-in-h…"
+        },
+        "ASSUMPTION": "The GCC *is* the substitute for staffing. Competing against it on headcount-count is one option; complementing it with tools is another.",
+        "COMPETITION_TYPE": "(c) offshore GCC",
+        "HOW_I_TEST": {
+          "question": "Has LPL publicly framed the GCC as headcount-equivalent to US hiring?",
+          "who_answers": "self"
+        }
+      },
+      "total_score": 10,
+      "band": "Early",
+      "BIGGEST_UNKNOWN": "Champion — same as DaVita and WU: until a named champion emerges, the band holds at \"Early\"."
+    },
+    "A006_Empower": {
+      "Metrics": {
+        "score": 1,
+        "KNOWN": {
+          "milliman_acquisition_2026_06_30": "https://www.businesswire.com/news/home/20260630508272/en/Empower-to-Acquire-M…"
+        },
+        "ASSUMPTION": "PE-owned acquires a new integration program; PE-side scrutiny on tool spend.",
+        "HOW_I_TEST": {
+          "question": "Of the integration budget, is there a separate tool-buy line?",
+          "who_answers": "Head of Integration (Milliman) — once seated"
+        }
+      },
+      "Economic_Buyer": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "Empower is PE-owned (Great-West subsidiary of Power Corporation of Canada); 10-K equivalent not public. CIO/gate-keepers have to be verified via leadership page.",
+        "HOW_I_TEST": {
+          "question": "Who on the leadership page at empower.com is the CIO?",
+          "who_answers": "self"
+        }
+      },
+      "Decision_Criteria": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Decision criteria not surfaced — PE-owned retailers make procurement opaque on purpose.",
+        "LOSING_CRITERION": "If criteria require vendor-side cost-share for tech re-platforming, Factory loses — PE governance usually pushes for OpEx-savings, not CapEx-add.",
+        "HOW_I_TEST": {
+          "question": "Does Empower publish a Vendor Risk Management Policy?",
+          "who_answers": "self"
+        }
+      },
+      "Decision_Process": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "Pre-integration-phase press release cycle is the new normal. Once Milliman integration head is seated, decision process will be that person + CIO + GP governance.",
+        "HOW_I_TEST": {
+          "question": "When is the Milliman integration head expected to be seated?",
+          "who_answers": "self — observe press release cycle"
+        }
+      },
+      "Paper_Process": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "PE-owned + ERISA-governed retirement = paper process heavier than typical PE-portfolio company; tool-buy MSAs go through GP-side governance.",
+        "LOSING_CRITERION": "Anything that requires longer than 12-month buyer commitment won't pass; PE governance usually forces annual renewals.",
+        "HOW_I_TEST": {
+          "question": "Does Empower publish a Vendor MSA template?",
+          "who_answers": "self"
+        }
+      },
+      "Identify_Pain": {
+        "score": 1,
+        "KNOWN": {
+          "milliman_integration_advisory_point": true
+        },
+        "ASSUMPTION": "Pain is the cumulative M&A integration load. Identification is broad; specific tool-buy pain is yet to surface.",
+        "HOW_I_TEST": {
+          "question": "Of the cumulative M&A integration load, what is the most painful tool-decision target right now?",
+          "who_answers": "Head of Integration (Milliman) — once seated"
+        }
+      },
+      "Champion": {
+        "score": 0,
+        "KNOWN": {},
+        "ASSUMPTION": "No champion yet — Milliman integration head will be a possible candidate once seated.",
+        "HOW_I_TEST": {
+          "question": "Has any Empower engineering leader publicly championed a toolchain past MassMutual integration?",
+          "who_answers": "self"
+        }
+      },
+      "Competition": {
+        "score": 1,
+        "KNOWN": {},
+        "ASSUMPTION": "Most likely competition shape is do-nothing-ride-out, since the cumulative M&A has been integrated on a per-deal basis.",
+        "COMPETITION_TYPE": "(d) do nothing / hire more",
+        "HOW_I_TEST": {
+          "question": "Has Empower post named either Copilot or Cursor?",
+          "who_answers": "self"
+        }
+      },
+      "total_score": 4,
+      "band": "Unqualified",
+      "BIGGEST_UNKNOWN": "Champion — same as A001 and A003; without a partner-or-champion hire, the band is at the floor."
+    }
+  },
+  "summary_bands": {
+    "Unqualified_0_6": ["A001_Qualcomm", "A003_ResMed", "A006_Empower"],
+    "Early_7_12": ["A002_DaVita", "A004_WesternUnion", "A005_LPLFinancial"],
+    "Qualified_13_18": [],
+    "Forecastable_19_24": []
+  },
+  "frame": "Two accounts (DaVita, WU) sit at 'Early' — meaning qualification is possible without breaking a rule, but nothing here is forecastable until someone inside each account has told me it's true. The aggregate /24 is faithful to the seed, not to my own optimism."
+}
