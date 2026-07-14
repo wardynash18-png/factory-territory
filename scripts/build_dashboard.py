@@ -372,6 +372,12 @@ textarea,input[type=text],input[type=date],input[type=number],input[type=range]{
 .outreach-slot .char-count.bad{color:var(--callout-heading-red);font-weight:700}
 .outreach-slot .copy-inline{font-size:11.5px;color:#fff;background:var(--accent);border:1px solid var(--accent);padding:4px 12px;border-radius:3px;cursor:pointer;font-weight:600}
 .outreach-slot .copy-inline:hover{filter:brightness(1.1)}
+.touch-tabs{display:flex;flex-direction:row;gap:4px;margin:0 0 8px 0;flex-wrap:wrap}
+.touch-tab{padding:3px 11px;border:1px solid var(--border-strong);border-radius:3px;cursor:pointer;font-size:11px;color:var(--fg-muted);background:var(--bg);font-weight:600;white-space:nowrap}
+.touch-tab:hover{border-color:var(--accent);color:var(--accent)}
+.touch-tab[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.touch-panel{display:block}
+.touch-panel[hidden]{display:none!important}
 .plan-grid{display:grid;grid-template-columns:88px 1fr;gap:6px 14px;font-size:12.5px;align-items:baseline}.plan-grid dt{font-weight:600;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.plan-grid dd{margin:0;color:var(--fg)}.plan-disqualify{background:var(--callout-bg-red);border:1px solid var(--callout-border-red);border-radius:3px;padding:8px 10px;margin-top:10px;font-size:12.5px;color:var(--callout-text-red)}.plan-disqualify strong{color:var(--callout-heading-red)}
 .meddpicc-bar{display:grid;grid-template-columns:130px 1fr 36px;gap:8px;align-items:center;padding:3px 0;font-size:12.5px}.meddpicc-bar .track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}.meddpicc-bar .fill{height:100%;background:var(--accent);border-radius:4px}.meddpicc-bar .score{font-family:ui-monospace,monospace;font-weight:700;text-align:right}.meddpicc-total{margin-top:8px;padding:8px 12px;background:var(--callout-bg);border-radius:4px;display:flex;justify-content:space-between;font-weight:600;font-size:13.5px;color:var(--callout-text)}.meddpicc-total .band-label{font-size:11px;padding:2px 8px;border-radius:8px;background:var(--accent);color:#fff;text-transform:uppercase;letter-spacing:.04em}.meddpicc-biggest{margin-top:8px;font-size:12px;color:var(--callout-text);background:var(--callout-bg);border-left:3px solid var(--callout-border);padding:6px 10px}
 .forecast-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -653,16 +659,18 @@ function renderDetail(){
   // Wire checklist
   root.querySelectorAll(`[data-checklist="${a.account_id}"] input[type=checkbox]`).forEach(cb=>{cb.checked=!!s.checklist[cb.dataset.key];cb.addEventListener("change",()=>{s.checklist[cb.dataset.key]=cb.checked;saveState();});});
 
-  // Outreach: wire Outreach Email/LinkedIn tab + char counters
+  // Outreach: wire per-slot touch sub-tabs + char counters + copy
   const outreachRoot=root.querySelector("#outreach-host");
   if(outreachRoot){
-    const tabs=outreachRoot.querySelectorAll(".outreach-tab");
-    tabs.forEach(t=>t.addEventListener("click",()=>{
-      tabs.forEach(x=>x.setAttribute("aria-selected","false"));
-      t.setAttribute("aria-selected","true");
-      outreachRoot.querySelectorAll(".outreach-panel").forEach(p=>p.hidden=p.dataset.panel!==t.dataset.tab);
-    }));
-    outreachRoot.querySelectorAll(".outreach-slot textarea").forEach(ta=>{
+    outreachRoot.querySelectorAll(".outreach-slot").forEach(card=>{
+      const tabs=card.querySelectorAll(".touch-tab");
+      tabs.forEach(t=>t.addEventListener("click",()=>{
+        tabs.forEach(x=>x.setAttribute("aria-selected","false"));
+        t.setAttribute("aria-selected","true");
+        card.querySelectorAll(".touch-panel").forEach(p=>p.hidden=p.dataset.touch!==t.dataset.touch);
+      }));
+    });
+    outreachRoot.querySelectorAll("textarea").forEach(ta=>{
       updateOneCharCount(ta);
       ta.addEventListener("input",()=>{
         updateOneCharCount(ta);
@@ -673,13 +681,13 @@ function renderDetail(){
       });
     });
     outreachRoot.querySelectorAll(".copy-inline").forEach(b=>b.addEventListener("click", async()=>{
-      const slotEl = b.closest(".outreach-slot");
-      if(!slotEl) return;
-      const ta = slotEl.querySelector("textarea");
+      const panel = b.closest(".touch-panel");
+      if(!panel) return;
+      const ta = panel.querySelector("textarea");
       if(!ta) return;
       let payload;
-      if(b.dataset.kind === "email"){
-        const subjEl = slotEl.querySelector(".subj");
+      if(b.dataset.kind !== "linkedin"){
+        const subjEl = panel.querySelector(".subj");
         const subj = subjEl ? subjEl.textContent.trim() : "";
         const body = ta.value.trim();
         payload = (subj && !/^\(empty/.test(subj))
@@ -751,17 +759,12 @@ function meddpiccHtml(m){
 function outreachHtml(a){
   const raw=OUTREACH[a.account_id]||"";
   const slots=parseOutreach(raw);
-  if(!slots.length){return `<div class="sect" style="margin-top:14px;"><h3>Outreach Email + LinkedIn</h3><div style="font-size:12.5px;color:var(--fg-muted);">No outreach research file for this account.</div></div>`;}
-  const emailPanel=slots.map(s=>outreachSlotHtml(a,s,"email")).join("");
-  const linkedinPanel=slots.map(s=>outreachSlotHtml(a,s,"linkedin")).join("");
+  if(!slots.length){return `<div class="sect" style="margin-top:14px;"><h3>Outreach · 4-touch sequence</h3><div style="font-size:12.5px;color:var(--fg-muted);">No outreach research file for this account.</div></div>`;}
+  const cards=slots.map(s=>outreachSlotHtml(a,s)).join("");
   return `<div class="sect" style="margin-top:14px;">
-    <h3>Outreach Email + LinkedIn · slot-tailored</h3>
-    <div class="outreach-tabs" id="outreach-host">
-      <button class="outreach-tab" data-tab="email" aria-selected="true">Email</button>
-      <button class="outreach-tab" data-tab="linkedin" aria-selected="false">LinkedIn (≤300 chars, red above)</button>
-      <div class="outreach-panel" data-panel="email">${emailPanel}</div>
-      <div class="outreach-panel" data-panel="linkedin" hidden>${linkedinPanel}</div>
-    </div>
+    <h3>Outreach · 4-touch sequence per slot</h3>
+    <div style="font-size:11.5px;color:var(--fg-muted);margin:0 0 10px;">Each slot escalates: Day 1 low-friction → Day 8 real meeting → Day 15 breakup → LinkedIn note. Customer outcomes are qualitative (no unsourced metrics); no URLs in the body.</div>
+    <div id="outreach-host">${cards}</div>
   </div>`;
 }
 function parseOutreach(raw){
@@ -769,16 +772,26 @@ function parseOutreach(raw){
   const lines = raw.split("\\n");
   const slots = [];
   let curSlot = null;
-  let curBlock = null; // 'intro' | 'email' | 'linkedin'
-  let curEmailSub = null;
-  let curEmailBodyLines = [];
+  let curBlock = null; // 'intro' | 'touch' | 'linkedin'
+  let curTouches = [];
+  let curTouch = null; // {day, subject, bodyLines}
   let curLinkedinLines = [];
+  const closeTouch = () => {
+    if(curTouch){
+      curTouches.push({
+        day: (curTouch.day || "").trim(),
+        subject: (curTouch.subject || "").trim(),
+        body: curTouch.bodyLines.join("\\n").trim(),
+      });
+      curTouch = null;
+    }
+  };
   const finalize = () => {
     if(!curSlot) return;
+    closeTouch();
     slots.push({
       slot: curSlot,
-      email_subject: (curEmailSub || "").trim(),
-      email_body: curEmailBodyLines.join("\\n").trim(),
+      touches: curTouches,
       linkedin_body: curLinkedinLines.join("\\n").trim(),
     });
   };
@@ -788,18 +801,24 @@ function parseOutreach(raw){
       finalize();
       curSlot = slotM[1];
       curBlock = "intro";
-      curEmailSub = null;
-      curEmailBodyLines = [];
+      curTouches = [];
+      curTouch = null;
       curLinkedinLines = [];
       continue;
     }
     if(!curSlot) continue;
-    if(/^###\s+Email\\b/.test(line)){ curBlock = "email"; continue; }
-    if(/^###\s+LinkedIn\\b/.test(line)){ curBlock = "linkedin"; continue; }
-    if(curBlock === "email"){
+    const touchM = line.match(/^###\s+Touch\s+\d+\s*[—-]+\s*(.+?)\s*$/);
+    if(touchM){
+      closeTouch();
+      curBlock = "touch";
+      curTouch = { day: touchM[1], subject: null, bodyLines: [] };
+      continue;
+    }
+    if(/^###\s+LinkedIn\\b/.test(line)){ closeTouch(); curBlock = "linkedin"; continue; }
+    if(curBlock === "touch" && curTouch){
       const subjM = line.match(/^Subject:\s*(.+?)\s*$/);
-      if(subjM){ curEmailSub = subjM[1]; continue; }
-      if(curEmailSub != null){ curEmailBodyLines.push(line); }
+      if(subjM){ curTouch.subject = subjM[1]; continue; }
+      if(curTouch.subject != null){ curTouch.bodyLines.push(line); }
       continue;
     }
     if(curBlock === "linkedin"){
@@ -820,35 +839,49 @@ function chatCountText(n, limit){
   return n + " chars";
 }
 
-function outreachSlotHtml(a, s, kind){
+function outreachSlotHtml(a, s){
   const slot = SLOT_LABEL[s.slot] || s.slot;
-  const stored = (STATE.outreachEdits || {})[`${a.account_id}|${s.slot}|${kind}`];
-  let value, charLimit, btnLabel, placeholder;
-  if(kind === "email"){
-    value = stored != null ? stored : (s.email_body || "");
-    charLimit = 0;
-    btnLabel = "Copy email + subj";
-    placeholder = "Hi <First Name>,\\n\\n<signal sentence — verified URL>\\n\\n<analogue sentence — Factory customer link>\\n\\n<one-line question>\\n\\nNash\\n\\nNash Wardy · Factory AI";
-  } else {
-    value = stored != null ? stored : (s.linkedin_body || "");
-    charLimit = 300;
-    btnLabel = "Copy LinkedIn note";
-    placeholder = "≤ 300 chars — observation + question, no meeting ask, no analogue name-drop.";
-  }
-  const over = charLimit > 0 && value.length > charLimit;
-  const near = charLimit > 0 && value.length >= charLimit - 30 && value.length <= charLimit;
-  const cls = over ? "bad" : (near ? "warn" : "");
-  const subjBox = kind === "email"
-    ? `<div class="subj-row"><span class="subj-label">Subject</span><span class="subj">${escapeHtml(s.email_subject || "(empty — fix in research/<company>_outreach.md)")}</span></div>`
-    : `<div class="subj-row"><span class="subj-label">Channel</span><span class="subj">LinkedIn connection note · ≤ 300 chars</span></div>`;
+  const EMAIL_PH = "Hi <FirstName>,\\n\\n<shared-context insight>\\n\\n<customer outcome — qualitative + why-it-holds>\\n\\n<tiered ask>\\n\\nNash\\n\\nNash Wardy · Factory AI";
+  const LI_PH = "≤ 300 chars — observation + question, no meeting ask, no analogue name-drop.";
+  const touches = s.touches || [];
+  const tabBtns = [];
+  const panels = [];
+  touches.forEach((t, i) => {
+    const kind = "touch" + (i+1);
+    const stored = (STATE.outreachEdits || {})[`${a.account_id}|${s.slot}|${kind}`];
+    const value = stored != null ? stored : (t.body || "");
+    const dayLabel = t.day || ("Touch " + (i+1));
+    const sel = i === 0 ? "true" : "false";
+    tabBtns.push(`<button class="touch-tab" data-touch="${kind}" aria-selected="${sel}">${escapeHtml(dayLabel)}</button>`);
+    panels.push(`<div class="touch-panel" data-touch="${kind}"${i===0?"":" hidden"}>
+      <div class="subj-row"><span class="subj-label">Subject</span><span class="subj">${escapeHtml(t.subject || "(empty — fix in research/<company>_outreach.md)")}</span></div>
+      <textarea data-slot="${s.slot}" data-kind="${kind}" data-char-limit="0" placeholder="${escapeHtml(EMAIL_PH)}">${escapeHtml(value)}</textarea>
+      <div class="char-row">
+        <span class="char-count">${chatCountText(value.length, 0)}</span>
+        <button class="copy-inline" data-kind="${kind}" data-slot="${s.slot}">Copy email + subj</button>
+      </div>
+    </div>`);
+  });
+  const liKind = "linkedin";
+  const liStored = (STATE.outreachEdits || {})[`${a.account_id}|${s.slot}|${liKind}`];
+  const liValue = liStored != null ? liStored : (s.linkedin_body || "");
+  const noTouches = touches.length === 0;
+  const liOver = liValue.length > 300;
+  const liNear = liValue.length >= 270 && liValue.length <= 300;
+  const liCls = liOver ? "bad" : (liNear ? "warn" : "");
+  tabBtns.push(`<button class="touch-tab" data-touch="${liKind}" aria-selected="${noTouches?"true":"false"}">LinkedIn</button>`);
+  panels.push(`<div class="touch-panel" data-touch="${liKind}"${noTouches?"":" hidden"}>
+    <div class="subj-row"><span class="subj-label">Channel</span><span class="subj">LinkedIn connection note · ≤ 300 chars</span></div>
+    <textarea data-slot="${s.slot}" data-kind="${liKind}" data-char-limit="300" placeholder="${escapeHtml(LI_PH)}">${escapeHtml(liValue)}</textarea>
+    <div class="char-row">
+      <span class="char-count ${liCls}">${chatCountText(liValue.length, 300)}</span>
+      <button class="copy-inline" data-kind="${liKind}" data-slot="${s.slot}">Copy LinkedIn note</button>
+    </div>
+  </div>`);
   return `<div class="outreach-slot">
     <h4>${slot}</h4>
-    ${subjBox}
-    <textarea data-slot="${s.slot}" data-kind="${kind}" data-char-limit="${charLimit}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea>
-    <div class="char-row">
-      <span class="char-count ${cls}">${chatCountText(value.length, charLimit)}</span>
-      <button class="copy-inline" data-kind="${kind}" data-slot="${s.slot}">${btnLabel}</button>
-    </div>
+    <div class="touch-tabs">${tabBtns.join("")}</div>
+    ${panels.join("")}
   </div>`;
 }
 
@@ -1102,7 +1135,7 @@ document.addEventListener("keydown",e=>{
   if(inField)return;
   if(e.key==="/"){e.preventDefault();document.getElementById("filter-search").focus();switchTab("accounts");return;}
   if(e.key==="j"||e.key==="k"){e.preventDefault();const list=document.querySelectorAll("#acct-list .acct-row");if(!list.length)return;let i=-1;list.forEach((r,idx)=>{if(r.classList.contains("active"))i=idx;});const next=e.key==="j"?Math.min(i+1,list.length-1):Math.max(0,i===-1?0:i-1);selectAccount(list[next].dataset.jump);document.querySelector("#acct-list .acct-row.active")?.scrollIntoView({block:"nearest"});return;}
-  if(e.key==="e"){e.preventDefault();const ta=document.querySelector("#acct-detail .outreach-panel[data-panel='email'] textarea")||document.querySelector("#acct-detail textarea");if(ta)ta.focus();return;}
+  if(e.key==="e"){e.preventDefault();const ta=document.querySelector("#acct-detail #outreach-host textarea")||document.querySelector("#acct-detail textarea");if(ta)ta.focus();return;}
   if(e.key==="c"){e.preventDefault();const btn=document.querySelector(".copy-inline");if(btn)btn.click();return;}
   if(e.key==="d"){e.preventDefault();if(!STATE.selectedId)return;const a=ACCOUNTS.find(x=>x.account_id===STATE.selectedId);openDisqualifyModal(a,acctState(a.account_id));return;}
   if(["1","2","3","4"].includes(e.key)){e.preventDefault();const m={1:"today",2:"accounts",3:"forecast",4:"thesis"};switchTab(m[e.key]);return;}
