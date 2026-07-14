@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory Territory — Account Dashboard</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-alt: #f8fafc;
+    --bg-soft: #f1f5f9;
+    --fg: #0f172a;
+    --fg-muted: #475569;
+    --fg-faint: #94a3b8;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --accent: #0a4d68;
+    --accent-soft: #cffafe;
+    --priority-pursue: #0f766e;
+    --priority-pursue-bg: #ccfbf1;
+    --priority-defer: #b45309;
+    --priority-defer-bg: #fef3c7;
+    --priority-disqualify: #be123c;
+    --priority-disqualify-bg: #ffe4e6;
+    --priority-unverified: #475569;
+    --priority-unverified-bg: #e2e8f0;
+    --focus: #f59e0b;
+    --code-bg: #f1f5f9;
+    --row-hover: #f8fafc;
+    --row-target: #fef9c3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f172a;
+      --bg-alt: #1e293b;
+      --bg-soft: #334155;
+      --fg: #f1f5f9;
+      --fg-muted: #cbd5e1;
+      --fg-faint: #64748b;
+      --border: #334155;
+      --border-strong: #475569;
+      --accent: #67e8f9;
+      --accent-soft: #155e75;
+      --code-bg: #1e293b;
+      --row-hover: #1e293b;
+      --row-target: #422006;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; line-height: 1.45; }
+  body { margin: 0; background: var(--bg); color: var(--fg); }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.92em; }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--accent);
+    color: white;
+    padding: 6px 10px;
+    z-index: 100;
+  }
+  .skip-link:focus { left: 8px; top: 8px; }
+
+  header { border-bottom: 1px solid var(--border); padding: 14px 24px; }
+  header h1 { font-size: 18px; margin: 0 0 2px 0; font-weight: 600; letter-spacing: -0.01em; }
+  header .meta { margin: 0; font-size: 12px; color: var(--fg-muted); }
+
+  .caveat {
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    font-size: 12.5px;
+    color: var(--fg-muted);
+  }
+  .caveat strong { color: var(--fg); }
+  .caveat code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+  .caveat a { color: var(--accent); }
+
+  main { padding: 18px 24px 60px 24px; max-width: 1400px; margin: 0 auto; }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .kpi {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px 14px;
+  }
+  .kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-faint); margin-bottom: 6px; font-weight: 600; }
+  .kpi-value { font-size: 22px; font-weight: 600; color: var(--fg); }
+  .kpi-list { list-style: none; padding: 0; margin: 0; font-size: 12.5px; }
+  .kpi-list li { display: flex; align-items: center; justify-content: space-between; padding: 2px 0; }
+  .kpi-list li .label { display: flex; align-items: center; gap: 6px; }
+  .priority-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .region-chip {
+    display: inline-block;
+    font-size: 10.5px;
+    padding: 1px 6px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--fg-muted);
+    background: var(--bg);
+  }
+  .kpi-list li .count { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--fg); }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .filter-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-faint); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    padding: 4px 10px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 12.5px;
+    color: var(--fg-muted);
+    user-select: none;
+  }
+  .chip:hover { border-color: var(--accent); color: var(--fg); }
+  .chip[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .chip:focus-visible { outline-offset: 1px; }
+  .search-group label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-faint); font-weight: 600; }
+  .search-group input {
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    padding: 5px 9px;
+    min-width: 240px;
+    font-size: 13px;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .filter-counter { font-size: 12px; color: var(--fg-muted); margin-left: auto; font-variant-numeric: tabular-nums; }
+
+  .scatter-section { margin-bottom: 28px; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 14px 16px; }
+  .scatter-section h2, .table-section h2 { font-size: 14px; margin: 0 0 4px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg-muted); }
+  .plot-help { font-size: 12px; margin: 0 0 12px 0; color: var(--fg-muted); }
+  .threshold { font-family: ui-monospace, monospace; background: var(--code-bg); padding: 0 4px; border-radius: 3px; }
+
+  .scatter-wrap { display: grid; grid-template-columns: 1fr 200px; gap: 16px; }
+  #scatter {
+    width: 100%;
+    height: auto;
+    background: var(--bg-alt);
+    display: block;
+    border: 1px solid var(--border);
+  }
+  .scatter-legend { font-size: 12px; padding-top: 4px; line-height: 2; color: var(--fg-muted); }
+  .scatter-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+  .dot-pursue { background: var(--priority-pursue); }
+  .dot-defer { background: var(--priority-defer); }
+  .dot-disqualify { background: var(--priority-disqualify); }
+  .dot-unverified { background: var(--priority-unverified); }
+
+  .empty-plot-note { font-size: 12px; margin: 12px 0 0 0; padding: 10px 12px; background: var(--code-bg); border: 1px dashed var(--border-strong); border-radius: 4px; color: var(--fg-muted); }
+
+  .axis-text { font-family: ui-monospace, monospace; font-size: 10.5px; fill: var(--fg-muted); }
+  .axis-line { stroke: var(--border-strong); stroke-width: 1; }
+  .threshold-line { stroke: var(--fg-faint); stroke-width: 1; stroke-dasharray: 4 3; }
+  .quadrant-line { stroke: var(--border); stroke-width: 1; }
+  .quadrant-label { font-family: ui-sans-serif, sans-serif; font-size: 11px; fill: var(--fg-faint); letter-spacing: 0.04em; text-transform: uppercase; }
+  .axis-title { font-family: ui-sans-serif, sans-serif; font-size: 11.5px; fill: var(--fg); font-weight: 600; }
+  .point { stroke: white; stroke-width: 1.5; cursor: pointer; }
+  .point.dim { opacity: 0.12; }
+  .point[data-priority="pursue"] { fill: var(--priority-pursue); }
+  .point[data-priority="defer"] { fill: var(--priority-defer); }
+  .point[data-priority="disqualify"] { fill: var(--priority-disqualify); }
+  .point[data-priority="unverified"] { fill: var(--priority-unverified); }
+  .point:focus-visible, .point:hover { stroke: var(--accent); stroke-width: 2.5; }
+  .point-loader { font-family: ui-monospace, monospace; font-size: 10.5px; fill: var(--fg); }
+  .point-loader-bg { fill: white; stroke: var(--border); stroke-width: 1; }
+
+  .table-section { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 14px 16px; }
+  .table-help { font-size: 12px; margin: 0 0 10px 0; color: var(--fg-muted); }
+  .table-wrap { overflow: auto; max-height: 70vh; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead th {
+    text-align: left;
+    padding: 6px 9px;
+    border-bottom: 1.5px solid var(--border-strong);
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    background: var(--bg-alt);
+    z-index: 1;
+    font-weight: 600;
+    color: var(--fg-muted);
+  }
+  thead th[aria-sort="ascending"]::after { content: " ↑"; color: var(--accent); }
+  thead th[aria-sort="descending"]::after { content: " ↓"; color: var(--accent); }
+  thead th:focus-visible { background: var(--accent-soft); }
+  tbody td {
+    padding: 6px 9px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--bg-alt); }
+  tbody tr:hover { background: var(--row-hover); }
+  tbody tr.target { background: var(--row-target); }
+  td.mono { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 12px; color: var(--fg-muted); }
+  td.na { color: var(--fg-faint); font-style: italic; }
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    color: var(--fg-muted);
+  }
+  .pill.pursue { background: var(--priority-pursue-bg); color: var(--priority-pursue); border-color: var(--priority-pursue); }
+  .pill.defer { background: var(--priority-defer-bg); color: var(--priority-defer); border-color: var(--priority-defer); }
+  .pill.disqualify { background: var(--priority-disqualify-bg); color: var(--priority-disqualify); border-color: var(--priority-disqualify); }
+  .pill.unverified { background: var(--priority-unverified-bg); color: var(--priority-unverified); border-color: var(--priority-unverified); }
+  .pill.warn { background: var(--priority-defer-bg); color: var(--priority-defer); border-color: var(--priority-defer); }
+  .pill.bad { background: var(--priority-disqualify-bg); color: var(--priority-disqualify); border-color: var(--priority-disqualify); }
+
+  .notes-cell {
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  footer { padding: 18px 24px 30px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--fg-muted); max-width: 1400px; margin: 0 auto; }
+
+  @media (max-width: 900px) {
+    .kpis { grid-template-columns: 1fr 1fr; }
+    .scatter-wrap { grid-template-columns: 1fr; }
+    .scatter-legend { display: flex; gap: 12px; flex-wrap: wrap; padding-top: 0; }
+    .filter-counter { margin-left: 0; }
+  }
+
+  .tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 6px 9px;
+    font-size: 12px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    z-index: 50;
+    max-width: 240px;
+    font-variant-numeric: tabular-nums;
+  }
+  .tooltip .t-company { font-weight: 600; }
+  .tooltip .t-row { color: var(--bg); opacity: 0.85; font-size: 11px; }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+<header>
+  <h1>Factory Territory — Account Dashboard</h1>
+  <p class="meta">Built from <code>data/accounts_enriched.csv</code>. Last touched <span class="mono">2026-07-14</span>. See <a href="../AGENTS.md">AGENTS.md</a> and <a href="../research/SUMMARY.md">research/SUMMARY.md</a> for sourcing rules.</p>
+</header>
+<div class="caveat" role="note">
+  <strong>Caveat.</strong> Firmographic figures here are ESTIMATES to be verified before use (AGENTS.md rule 4).
+  Missing data renders as <span class="mono">n/a</span> in the table and is excluded from the scatter — no value is invented to fill the chart.
+  Currently 0 of 20 accounts have verified revenue &amp; employee counts, so the signature scatter plot is empty by design, not by missing plumbing.
+  Region column uses <code>accounts_seed.csv</code> country as proxy; priority verdicts derive from documented research in <code>research/SUMMARY.md</code>.
+</div>
+<main id="main">
+  <section class="kpis" aria-label="Key performance indicators">
+    <div class="kpi">
+      <div class="kpi-label">Total accounts</div>
+      <div class="kpi-value" id="total-count">–</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">By region</div>
+      <ul class="kpi-list" id="by-region"></ul>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">By priority</div>
+      <ul class="kpi-list" id="by-priority"></ul>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Points on plot</div>
+      <div class="kpi-value"><span id="plot-count">0</span> / <span id="total-count-2" class="mono">–</span></div>
+    </div>
+  </section>
+
+  <section class="filters" aria-label="Filters">
+    <div class="filter-group">
+      <span class="filter-label">Region</span>
+      <div class="chips" id="chips-region" role="group" aria-label="Region filter chips"></div>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Priority</span>
+      <div class="chips" id="chips-priority" role="group" aria-label="Priority filter chips"></div>
+    </div>
+    <div class="filter-group search-group">
+      <label for="search">Search</label>
+      <input type="search" id="search" placeholder="company, domain, slug, signal…" aria-label="Search accounts">
+    </div>
+    <div class="filter-counter" id="filter-counter" aria-live="polite"></div>
+  </section>
+
+  <section class="scatter-section" aria-label="Revenue vs employees scatter">
+    <h2>Revenue × Employees (log scale)</h2>
+    <p class="plot-help">Quadrants split at <span class="threshold">$500M</span> revenue and <span class="threshold">5,000</span> employees. Hover any point for company + values; click to highlight and scroll the matching row.</p>
+    <div class="scatter-wrap">
+      <svg id="scatter" viewBox="0 0 900 540" role="img" aria-label="Revenue vs Employees scatter plot">
+        <!-- axes, thresholds, quadrants, points — drawn by JS -->
+      </svg>
+      <div class="scatter-legend" aria-label="Priority legend">
+        <div><span class="dot dot-pursue"></span>Pursue</div>
+        <div><span class="dot dot-defer"></span>Defer</div>
+        <div><span class="dot dot-disqualify"></span>Disqualify</div>
+        <div><span class="dot dot-unverified"></span>Unverified</div>
+      </div>
+    </div>
+    <p class="empty-plot-note" id="empty-plot-note">A</p>
+  </section>
+
+  <section class="table-section" aria-label="Accounts table">
+    <h2>Accounts</h2>
+    <p class="table-help">Click a column header to sort ascending / descending. Click any row to highlight; clicking a point in the scatter scrolls here.</p>
+    <div class="table-wrap">
+      <table id="table">
+        <thead>
+          <tr>
+            <th data-col="account_id" tabindex="0">ID</th>
+            <th data-col="company" tabindex="0">Company</th>
+            <th data-col="domain" tabindex="0">Domain</th>
+            <th data-col="region" tabindex="0">Region</th>
+            <th data-col="priority" tabindex="0">Priority</th>
+            <th data-col="hq_country" tabindex="0">HQ (public)</th>
+            <th data-col="in_sd_or_denver_metro" tabindex="0">In SD/Denver?</th>
+            <th data-col="revenue" tabindex="0">Revenue</th>
+            <th data-col="employees_total" tabindex="0">Employees</th>
+            <th data-col="engineering_headcount" tabindex="0">Eng headcount</th>
+            <th data-col="sector" tabindex="0">Sector</th>
+            <th data-col="cto_name" tabindex="0">CTO</th>
+            <th data-col="seed_thesis_status" tabindex="0">Thesis</th>
+            <th data-col="near_match_notes" tabindex="0">Notes</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer>
+  Source: <a href="../data/accounts_enriched.csv"><code>data/accounts_enriched.csv</code></a>. Region proxy uses seed country. Priority verdicts from <a href="../research/SUMMARY.md"><code>research/SUMMARY.md</code></a>. Dashboards are advisory, never authoritative — verify before acting.
+</footer>
+
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+
+<script>
+  // Embedded data — mirrors data/accounts_enriched.csv plus 2 derived fields:
+  //   region   <- seed country (accounts_seed.csv, column 5)
+  //   priority <- research verdict (research/SUMMARY.md)
+  // Other fields come straight from accounts_enriched.csv.
+  const DATA = [
+    {account_id:"A001", company:"Vector Forge", domain:"vectorforge.io", slug:"vector-forge", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real but unrelated: VECTOR FORGE LTD (UK), VectorForge Web Marketing US, VECTOR FORGE LLC NY, VectorForge Labs on Crunchbase. None match seeded description of 120-employee US B2B SaaS AI/ML platform.", last_researched:"2026-07-14"},
+    {account_id:"A002", company:"Pipewell", domain:"pipewell.com", slug:"pipewell", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Only near-match is a consumer brand at choosepipewell.com (ZoomInfo, Virginia, US) — unrelated to the seeded fintech infra Series B of 210 employees. No verifiable Pipewell entity matching the seed description.", last_researched:"2026-07-14"},
+    {account_id:"A003", company:"Northwind Atlas", domain:"northwindatlas.io", slug:"northwind-atlas", region:"Canada", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"All web references for 'Northwind' map to Microsoft's Northwind Traders sample database. No real B2B SaaS data infrastructure company at northwindatlas.io. GitHub org northwindlabs/ai-atlas exists but is a directory repo.", last_researched:"2026-07-14"},
+    {account_id:"A004", company:"Loomscale", domain:"loomscale.com", slug:"loomscale", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Closest real entity is Loom, Inc. (video messaging, acquired by Atlassian) and loomhq on GitHub. Different product (async video, not dev tools), different scale than seeded 340-person Series C. Loopscale exists (Solana lending infra) but is not 'Loomscale'.", last_researched:"2026-07-14"},
+    {account_id:"A005", company:"Cashlayer", domain:"cashlayer.com", slug:"cashlayer", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"No verifiable 'Cashlayer' B2B SaaS fintech infrastructure company found. Layer Financial Technologies exists but is on a different domain and is SMB embedded accounting, not the Series A infra company described.", last_researched:"2026-07-14"},
+    {account_id:"A006", company:"Helio Compute", domain:"helio-compute.dev", slug:"helio-compute", region:"US", priority:"defer", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Multiple real 'Helio' companies exist: Helio AG carbon-aware cloud (Zürich, Seed €4.9M 2023); Helio.AI recruiting automation; Helio cloud AI platform. None match 75-employee US B2B SaaS AI/ML platform on helio-compute.dev. Verdict: DEFER (wrong shape).", last_researched:"2026-07-14"},
+    {account_id:"A007", company:"Strata Ledger", domain:"strataledger.com", slug:"strata-ledger", region:"UK", priority:"unverified", hq_country:"UK", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Nearest real entities: Ledger (hardware crypto wallet — completely different product); Strata Global Limited UK advisory. No verifiable UK fintech ledger infra company on strataledger.com with the seeded shape.", last_researched:"2026-07-14"},
+    {account_id:"A008", company:"Quanta Flow", domain:"quanta-flow.io", slug:"quanta-flow", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entities with similar name: Quantaflow (Quebec, people-flow counting for shopping centres, ~1.2k LinkedIn — different vertical); QuantaFlow Solutions (Houston, AI workflow automation); Quant Flow by Quant Network (Overledger). None are a 420-person US Series C data infra Snowflake-replacement.", last_researched:"2026-07-14"},
+    {account_id:"A009", company:"Beacon OSS", domain:"beaconoss.dev", slug:"beacon-oss", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Many open-source Beacon projects exist (Beacon CMS, Beacon SDK for Tezos, AltBeacon). None match a 55-employee US Seed-stage developer tools company at beaconoss.dev. GitHub org 'beaconoss' did not surface in verification.", last_researched:"2026-07-14"},
+    {account_id:"A010", company:"Mercury Index", domain:"mercuryindex.com", slug:"mercury-index", region:"US", priority:"pursue", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entity is mercury.com (Mercury Technologies, Inc., co-founder/CTO Max Tagher per Serokell 2022-08-28; Series C Mar 2025; Haskell/Elm stack; OSS ghciwatch). Verdict: PURSUE (strongest signal in batch).", last_researched:"2026-07-14"},
+    {account_id:"A011", company:"Pier 14 Labs", domain:"pier14labs.com", slug:"pier-14-labs", region:"US", priority:"disqualify", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entity is Pierre (YC W23, founders Ian Ownbey + Jacob Thornton, ~10 employees SF). Below ICP minimum 50 employees. Verdict: DISQUALIFY (size floor).", last_researched:"2026-07-14"},
+    {account_id:"A012", company:"Sable Stream", domain:"sablestream.io", slug:"sable-stream", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real Sable companies: Sable voice/vision browser automation; Sable credit & banking platform. GitHub 'Sable' org is Sable Research Group (compiler research, McGill). None match 95-employee US Seed-stage data infra streaming.", last_researched:"2026-07-14"},
+    {account_id:"A013", company:"Tinroof", domain:"tinroof.dev", slug:"tinroof", region:"Canada", priority:"disqualify", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entity is Tin Roof Software (Georgia US dev-services firm, ~9,756 LinkedIn, President Daniel Gore / CIO Kapil Chandra / CTO Akash Patel). AGENTS.md rule 1 disqualifier: agency/reseller. Verdict: DISQUALIFY.", last_researched:"2026-07-14"},
+    {account_id:"A014", company:"Foldwise", domain:"foldwise.com", slug:"foldwise", region:"US", priority:"pursue", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entity is Fold Holdings, Inc. (NASDAQ:FLD, SPAC Jul 2024, CEO Will Reeves; 8-K Jan 2026 card+custody rebuild roadmap; $66M debt retired Mar 2026; Senior BE Engineer posting Apr 5 2026). Verdict: PURSUE.", last_researched:"2026-07-14"},
+    {account_id:"A015", company:"Granite Route", domain:"graniteroute.io", slug:"granite-route", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real Granite entities: IBM Granite (LLM-family OSS); Granite Media LLC at granite.io (ad-tech). Neither matches the seeded 470-person platform-engineering spinout.", last_researched:"2026-07-14"},
+    {account_id:"A016", company:"Lumen Atlas", domain:"lumenatlas.com", slug:"lumen-atlas", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Lumen Atlas itself resolves to a 'transform strategy into action' consulting landing page. Other Lumen entities: Lumenalta (AI/ML services), Lumen Technologies (telecom), Lumenore (BI/analytics). GitHub 'lumen' has 13 unrelated repos.", last_researched:"2026-07-14"},
+    {account_id:"A017", company:"Birchline", domain:"birchline.com", slug:"birchline", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Birchline LinkedIn page exists (12 followers) but is described as 'Gourmet Kitchen & Home retailer' — not a Series A fintech infra acquiring-competitor integration company.", last_researched:"2026-07-14"},
+    {account_id:"A018", company:"Drift Forge", domain:"driftforge.dev", slug:"drift-forge", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"driftforge.dev resolves to an RC drift car configurator (hobbyist site), not a 65-employee US Seed-stage developer tools local-dev cloud company. Other Drift/Forge entities are unrelated domains.", last_researched:"2026-07-14"},
+    {account_id:"A019", company:"Sablon", domain:"sablon.io", slug:"sablon", region:"Germany", priority:"defer", hq_country:"Germany", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real entity is Sablono (Sablono GmbH, Berlin, construction PM, Series A €5.3M May 2021 with Nemetschek SE + Bachmaier + HTGF; CEO Lukas Olbrich). Wrong ICP vertical. Verdict: DEFER.", last_researched:"2026-07-14"},
+    {account_id:"A020", company:"Northgate Loom", domain:"northgatelocom.com", slug:"northgate-loom", region:"US", priority:"unverified", hq_country:"UNKNOWN", in_sd_or_denver_metro:"CANNOT_VERIFY", revenue:"UNKNOWN", employees_total:"UNKNOWN", engineering_headcount:"UNKNOWN", sector:"UNKNOWN", cto_name:"UNKNOWN", seed_thesis_status:"UNVERIFIED", near_match_notes:"Real Loom entities: Loom video messaging (loomhq), Loom Systems AIOps (acquired by ServiceNow), Loom.ai (acquired by Roblox). 'Loom' GitHub orgs are event-driven AI orchestration — different product. Northgate is a real VC firm, not a Series A platform co.", last_researched:"2026-07-14"}
+  ];
+
+  // ---------- state ----------
+  const state = {
+    regionFilter: new Set(["All"]),
+    priorityFilter: new Set(["All"]),
+    sortCol: "account_id",
+    sortDir: "asc",
+    search: ""
+  };
+
+  // ---------- helpers ----------
+  const REGIONS = ["All", "US", "Canada", "UK", "Germany"];
+  const PRIORITIES = ["All", "pursue", "defer", "disqualify", "unverified"];
+  const PRIORITY_PILL_CLASS = {pursue:"pursue", defer:"defer", disqualify:"disqualify", unverified:"unverified", All:"unverified"};
+  const NUMERIC_COLS = new Set(["revenue", "employees_total", "engineering_headcount"]);
+
+  function isNA(v){ return v === "UNKNOWN" || v == null || v === ""; }
+  function fmt(v){ return isNA(v) ? "n/a" : v; }
+  function fmtNum(v){
+    if (!isNA(v) && typeof v === "number") {
+      const abs = Math.abs(v);
+      if (abs >= 1e9) return "$" + (v/1e9).toFixed(1) + "B";
+      if (abs >= 1e6) return "$" + (v/1e6).toFixed(1) + "M";
+      if (abs >= 1e3) return (v/1e3).toFixed(1) + "k";
+      return String(v);
+    }
+    return isNA(v) ? "n/a" : v;
+  }
+  function tooltip(text){ document.getElementById("tooltip").textContent = text; }
+  function showTooltip(html, evt){
+    const t = document.getElementById("tooltip");
+    t.innerHTML = html;
+    t.hidden = false;
+    positionTooltip(evt);
+  }
+  function hideTooltip(){ document.getElementById("tooltip").hidden = true; }
+  function positionTooltip(evt){
+    const t = document.getElementById("tooltip");
+    const pad = 12;
+    let x = evt.clientX + pad, y = evt.clientY + pad;
+    const w = t.offsetWidth, h = t.offsetHeight;
+    if (x + w > window.innerWidth - 4) x = window.innerWidth - w - 4;
+    if (y + h > window.innerHeight - 4) y = window.innerHeight - h - 4;
+    t.style.left = x + "px";
+    t.style.top = y + "px";
+  }
+
+  // ---------- KPI strip ----------
+  function renderKPIs(rows){
+    document.getElementById("total-count").textContent = rows.length;
+    document.getElementById("total-count-2").textContent = rows.length;
+
+    const byRegion = new Map();
+    rows.forEach(r => byRegion.set(r.region, (byRegion.get(r.region)||0)+1));
+    const regionUl = document.getElementById("by-region");
+    regionUl.innerHTML = "";
+    [...byRegion.entries()].sort((a,b)=>b[1]-a[1]).forEach(([k,v])=>{
+      const li = document.createElement("li");
+      li.innerHTML = '<span class="label"><span class="region-chip">' + k + '</span></span><span class="count">' + v + '</span>';
+      regionUl.appendChild(li);
+    });
+
+    const byPriority = new Map();
+    rows.forEach(r => byPriority.set(r.priority, (byPriority.get(r.priority)||0)+1));
+    const order = ["pursue","defer","disqualify","unverified"];
+    const prioUl = document.getElementById("by-priority");
+    prioUl.innerHTML = "";
+    order.forEach(k=>{
+      if (!byPriority.has(k)) return;
+      const v = byPriority.get(k);
+      const li = document.createElement("li");
+      li.innerHTML = '<span class="label"><span class="priority-dot dot-' + k + '"></span>' + k + '</span><span class="count">' + v + '</span>';
+      prioUl.appendChild(li);
+    });
+  }
+
+  // ---------- Filters ----------
+  function renderChips(containerId, values, currentSet, onToggle){
+    const c = document.getElementById(containerId);
+    c.innerHTML = "";
+    values.forEach(v=>{
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = v;
+      const active = currentSet.has(v) && (v !== "All" || (currentSet.size === 1 && currentSet.has("All")));
+      b.setAttribute("aria-pressed", active ? "true" : "false");
+      b.addEventListener("click", ()=> onToggle(v));
+      b.addEventListener("keydown", e=>{ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onToggle(v); } });
+      c.appendChild(b);
+    });
+  }
+
+  function toggleSetValue(set, v){
+    if (v === "All"){
+      set.clear(); set.add("All"); return;
+    }
+    set.delete("All");
+    if (set.has(v)){
+      set.delete(v);
+    } else {
+      set.add(v);
+    }
+    if (set.size === 0) set.add("All");
+  }
+
+  function applyFilters(allRows){
+    return allRows.filter(r => {
+      const regionOK = state.regionFilter.has("All") || state.regionFilter.has(r.region);
+      const priorityOK = state.priorityFilter.has("All") || state.priorityFilter.has(r.priority);
+      const search = state.search.trim().toLowerCase();
+      const hay = (r.company + " " + r.domain + " " + r.slug + " " + r.near_match_notes + " " + r.sector).toLowerCase();
+      const searchOK = !search || hay.indexOf(search) !== -1;
+      return regionOK && priorityOK && searchOK;
+    });
+  }
+
+  // ---------- Scatter ----------
+  const PLOT = {W: 900, H: 540, padL: 56, padR: 18, padT: 22, padB: 44};
+  const X = {min: 1e5, max: 1e10}; // $100k to $10B
+  const Y = {min: 10, max: 1e5};   // 10 to 100k employees
+  function xScale(v){ return PLOT.padL + (Math.log10(v) - Math.log10(X.min)) / (Math.log10(X.max) - Math.log10(X.min)) * (PLOT.W - PLOT.padL - PLOT.padR); }
+  function yScale(v){ return PLOT.H - PLOT.padB - (Math.log10(v) - Math.log10(Y.min)) / (Math.log10(Y.max) - Math.log10(Y.min)) * (PLOT.H - PLOT.padT - PLOT.padB); }
+  const NS = "http://www.w3.org/2000/svg";
+  function svg(tag, attrs, parent){
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs){ if (attrs[k] != null) e.setAttribute(k, attrs[k]); }
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function drawScatterAxes(plotGroup){
+    // axes
+    svg("line", {x1: PLOT.padL, y1: PLOT.H-PLOT.padB, x2: PLOT.W-PLOT.padR, y2: PLOT.H-PLOT.padB, class:"axis-line"}, plotGroup);
+    svg("line", {x1: PLOT.padL, y1: PLOT.padT, x2: PLOT.padL, y2: PLOT.H-PLOT.padB, class:"axis-line"}, plotGroup);
+
+    // x ticks: 100k, 1M, 10M, 100M, 1B, 10B
+    const xt = [1e5, 1e6, 1e7, 1e8, 1e9, 1e10];
+    xt.forEach(v=>{
+      const x = xScale(v);
+      svg("line", {x1:x, y1:PLOT.H-PLOT.padB, x2:x, y2:PLOT.H-PLOT.padB+4, class:"axis-line"}, plotGroup);
+      const lbl = v >= 1e9 ? "$" + (v/1e9) + "B" : v >= 1e6 ? "$" + (v/1e6) + "M" : "$" + (v/1e3) + "k";
+      const t = svg("text", {x:x, y:PLOT.H-PLOT.padB+18, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+      t.textContent = lbl;
+    });
+
+    // y ticks: 10, 100, 1k, 10k, 100k
+    const yt = [10, 100, 1000, 10000, 100000];
+    yt.forEach(v=>{
+      const y = yScale(v);
+      svg("line", {x1:PLOT.padL-4, y1:y, x2:PLOT.padL, y2:y, class:"axis-line"}, plotGroup);
+      const lbl = v >= 1000 ? (v/1000) + "k" : String(v);
+      const t = svg("text", {x:PLOT.padL-8, y:y+3, "text-anchor":"end", class:"axis-text"}, plotGroup);
+      t.textContent = lbl;
+    });
+
+    // axis titles
+    const xtit = svg("text", {x:(PLOT.padL+PLOT.W-PLOT.padR)/2, y:PLOT.H-8, "text-anchor":"middle", class:"axis-title"}, plotGroup);
+    xtit.textContent = "Revenue (annual, USD, log scale)";
+    const ytit = svg("text", {x:16, y:(PLOT.padT+PLOT.H-PLOT.padB)/2, "text-anchor":"middle", class:"axis-title", transform:"rotate(-90 16 " + ((PLOT.padT+PLOT.H-PLOT.padB)/2) + ")"}, plotGroup);
+    ytit.textContent = "Employees (log scale)";
+  }
+
+  function drawScatterThresholds(plotGroup){
+    // vertical at $500M, horizontal at 5,000
+    const x500M = xScale(5e8);
+    const y5000 = yScale(5000);
+    svg("line", {x1:x500M, y1:PLOT.padT, x2:x500M, y2:PLOT.H-PLOT.padB, class:"threshold-line"}, plotGroup);
+    svg("line", {x1:PLOT.padL, y1:y5000, x2:PLOT.W-PLOT.padR, y2:y5000, class:"threshold-line"}, plotGroup);
+
+    // threshold labels
+    const xt = svg("text", {x:x500M, y:PLOT.padT-6, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+    xt.textContent = "$500M";
+    const yt = svg("text", {x:PLOT.W-PLOT.padR-4, y:y5000-6, "text-anchor":"end", class:"axis-text"}, plotGroup);
+    yt.textContent = "5,000 employees";
+
+    // quadrant labels
+    const cx_UR = (x500M + (PLOT.W-PLOT.padR)) / 2;
+    const cy_UR = (PLOT.padT + y5000) / 2;
+    const l1 = svg("text", {x:cx_UR, y:cy_UR, "text-anchor":"middle", class:"quadrant-label"}, plotGroup);
+    l1.textContent = "Enterprise / scale";
+    const l2 = svg("text", {x:cx_UR, y:cy_UR+12, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+    l2.textContent = "high revenue · many employees";
+
+    const cx_UL = (PLOT.padL + x500M) / 2;
+    const cy_UL = cy_UR;
+    const l3 = svg("text", {x:cx_UL, y:cy_UL, "text-anchor":"middle", class:"quadrant-label"}, plotGroup);
+    l3.textContent = "Heavy operations";
+    const l4 = svg("text", {x:cx_UL, y:cy_UL+12, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+    l4.textContent = "capital-light · labor-heavy";
+
+    const cx_LL = cx_UL;
+    const cy_LL = (y5000 + (PLOT.H-PLOT.padB)) / 2;
+    const l5 = svg("text", {x:cx_LL, y:cy_LL, "text-anchor":"middle", class:"quadrant-label"}, plotGroup);
+    l5.textContent = "Small / SMB";
+    const l6 = svg("text", {x:cx_LL, y:cy_LL+12, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+    l6.textContent = "low revenue · few employees";
+
+    const cx_LR = cx_UR;
+    const cy_LR = cy_LL;
+    const l7 = svg("text", {x:cx_LR, y:cy_LR, "text-anchor":"middle", class:"quadrant-label"}, plotGroup);
+    l7.textContent = "Lean & scaling";
+    const l8 = svg("text", {x:cx_LR, y:cy_LR+12, "text-anchor":"middle", class:"axis-text"}, plotGroup);
+    l8.textContent = "high revenue · few employees";
+  }
+
+  function renderScatter(rows, plotGroup){
+    // Clear previous points to avoid accumulation on re-render
+    while (plotGroup.firstChild) plotGroup.removeChild(plotGroup.firstChild);
+
+    // Points only if revenue + employees are both numeric
+    const pcountEl = document.getElementById("plot-count");
+    pcountEl.textContent = "0";
+    let placed = 0;
+    rows.forEach(r => {
+      if (typeof r.revenue === "number" && typeof r.employees_total === "number"){
+        const cx = xScale(r.revenue), cy = yScale(r.employees_total);
+        const c = svg("circle", {cx, cy, r:7, class:"point", "data-priority":r.priority, "data-id":r.account_id, tabindex:"0", role:"button", "aria-label": r.company + " · revenue " + fmtNum(r.revenue) + " · employees " + r.employees_total}, plotGroup);
+        c.addEventListener("mouseenter", e=>{
+          showTooltip('<div class="t-company">' + r.company + '</div><div class="t-row">' + fmtNum(r.revenue) + ' · ' + r.employees_total + ' emp</div><div class="t-row">priority: ' + r.priority + '</div>', e);
+        });
+        c.addEventListener("mousemove", positionTooltip);
+        c.addEventListener("mouseleave", hideTooltip);
+        c.addEventListener("focus", e=>{
+          showTooltip('<div class="t-company">' + r.company + '</div><div class="t-row">' + fmtNum(r.revenue) + ' · ' + r.employees_total + ' emp</div>', e);
+        });
+        c.addEventListener("blur", hideTooltip);
+        c.addEventListener("click", ()=> scrollToRow(r.account_id));
+        c.addEventListener("keydown", e=>{ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); scrollToRow(r.account_id); } });
+        placed++;
+      }
+    });
+    pcountEl.textContent = placed;
+  }
+
+  // ---------- Table ----------
+  function sortRows(rows){
+    const col = state.sortCol, dir = state.sortDir === "asc" ? 1 : -1;
+    return [...rows].sort((a,b)=>{
+      const av = a[col], bv = b[col];
+      if (NUMERIC_COLS.has(col)){
+        const an = typeof av === "number" ? av : null;
+        const bn = typeof bv === "number" ? bv : null;
+        if (an == null && bn == null) return 0;
+        if (an == null) return 1;     // UNKNOWN always last
+        if (bn == null) return -1;
+        return (an - bn) * dir;
+      }
+      const aS = isNA(av) ? "" : String(av).toLowerCase();
+      const bS = isNA(bv) ? "" : String(bv).toLowerCase();
+      if (aS < bS) return -1 * dir;
+      if (aS > bS) return 1 * dir;
+      return 0;
+    });
+  }
+
+  function renderTable(rows){
+    const tbody = document.getElementById("table-body");
+    tbody.innerHTML = "";
+    rows.forEach(r => {
+      const tr = document.createElement("tr");
+      tr.id = "row-" + r.account_id;
+      tr.dataset.id = r.account_id;
+      tr.tabIndex = 0;
+      tr.addEventListener("click", ()=> highlightRow(r.account_id));
+      tr.addEventListener("keydown", e=>{ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); highlightRow(r.account_id); } });
+
+      const cells = [
+        {col:"account_id",  v:r.account_id,        cls:"mono"},
+        {col:"company",     v:r.company},
+        {col:"domain",      v:r.domain,            cls:"mono"},
+        {col:"region",      v:r.region,            cls:"mono", asPill:true},
+        {col:"priority",    v:r.priority,          asPill:true},
+        {col:"hq_country",  v:r.hq_country,        cls:"mono"},
+        {col:"in_sd_or_denver_metro", v:r.in_sd_or_denver_metro, asPill:true},
+        {col:"revenue",     v:r.revenue},
+        {col:"employees_total",     v:r.employees_total},
+        {col:"engineering_headcount", v:r.engineering_headcount},
+        {col:"sector",      v:r.sector},
+        {col:"cto_name",    v:r.cto_name},
+        {col:"seed_thesis_status", v:r.seed_thesis_status, asPill:true},
+        {col:"near_match_notes",   v:r.near_match_notes, cls:"notes-cell", title:r.near_match_notes}
+      ];
+      cells.forEach(c=>{
+        const td = document.createElement("td");
+        td.dataset.col = c.col;
+        if (c.cls) td.className = c.cls;
+        if (c.title) td.title = c.title;
+        let display;
+        if (c.col === "revenue" || c.col === "employees_total" || c.col === "engineering_headcount"){
+          display = isNA(c.v) ? '<span class="na">n/a</span>' : fmtNum(c.v);
+        } else if (c.asPill){
+          if (isNA(c.v) || c.v === "UNKNOWN"){ display = '<span class="na">n/a</span>'; }
+          else if (c.col === "priority"){ display = '<span class="pill ' + (PRIORITY_PILL_CLASS[c.v]||'unverified') + '">' + c.v + '</span>'; }
+          else if (c.col === "region"){ display = '<span class="region-chip">' + c.v + '</span>'; }
+          else if (c.col === "in_sd_or_denver_metro"){
+            const cls = c.v === "YES_VERIFIED" ? "pursue" : c.v === "NOT_IN_TARGET" ? "bad" : c.v === "CANNOT_VERIFY" ? "warn" : "unverified";
+            display = '<span class="pill ' + cls + '">' + c.v + '</span>';
+          }
+          else if (c.col === "seed_thesis_status"){
+            const cls = c.v === "VERIFIED" ? "pursue" : c.v === "UNVERIFIED" ? "warn" : "unverified";
+            display = '<span class="pill ' + cls + '">' + c.v + '</span>';
+          }
+          else { display = c.v; }
+        } else if (isNA(c.v)){
+          display = '<span class="na">n/a</span>';
+        } else {
+          display = c.v;
+        }
+        td.innerHTML = display;
+        tr.appendChild(td);
+      });
+
+      tbody.appendChild(tr);
+    });
+    updateSortIndicators();
+  }
+
+  function updateSortIndicators(){
+    document.querySelectorAll("thead th").forEach(th=>{
+      th.removeAttribute("aria-sort");
+      if (th.dataset.col === state.sortCol){
+        th.setAttribute("aria-sort", state.sortDir === "asc" ? "ascending" : "descending");
+      }
+    });
+  }
+
+  function scrollToRow(id){
+    const tr = document.getElementById("row-" + id);
+    if (!tr) return;
+    highlightRow(id);
+    tr.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+  function highlightRow(id){
+    document.querySelectorAll("tbody tr.target").forEach(r=> r.classList.remove("target"));
+    const tr = document.getElementById("row-" + id);
+    if (tr) tr.classList.add("target");
+  }
+
+  // ---------- Diff between filtered and unfiltered for scatter dimming ----------
+  function dimNonMatchingPoints(activeIds){
+    document.querySelectorAll("#scatter .point").forEach(p=>{
+      if (activeIds.has(p.dataset.id)) p.classList.remove("dim");
+      else p.classList.add("dim");
+    });
+  }
+
+  // ---------- Main render ----------
+  function renderAll(){
+    const filtered = applyFilters(DATA);
+    const sorted = sortRows(filtered);
+    renderKPIs(DATA);
+    renderTable(sorted);
+
+    // plot: redraw axes once (kept in memory); then re-render points only if not yet done
+    const svgEl = document.getElementById("scatter");
+    if (!svgEl.querySelector(".axis-line")){
+      const plotGroup = svg("g", {id:"plot-layer"}, svgEl);
+      drawScatterAxes(plotGroup);
+      drawScatterThresholds(plotGroup);
+      const pointsGroup = svg("g", {id:"points-group"}, svgEl);
+      renderScatter(DATA, pointsGroup); // plot always reflects the full set; dim non-matching
+    } else {
+      renderScatter(DATA, svgEl.querySelector("#points-group"));
+    }
+
+    dimNonMatchingPoints(new Set(sorted.map(r=>r.account_id)));
+
+    const filterCounter = document.getElementById("filter-counter");
+    filterCounter.textContent = sorted.length + " of " + DATA.length + " match";
+  }
+
+  // ---------- Wire up ----------
+  function onRegionChip(v){
+    toggleSetValue(state.regionFilter, v);
+    renderChips("chips-region", REGIONS, state.regionFilter, onRegionChip);
+    renderAll();
+  }
+  function onPriorityChip(v){
+    toggleSetValue(state.priorityFilter, v);
+    renderChips("chips-priority", PRIORITIES, state.priorityFilter, onPriorityChip);
+    renderAll();
+  }
+
+  function init(){
+    renderChips("chips-region", REGIONS, state.regionFilter, onRegionChip);
+    renderChips("chips-priority", PRIORITIES, state.priorityFilter, onPriorityChip);
+
+    document.getElementById("search").addEventListener("input", e=>{
+      state.search = e.target.value;
+      renderAll();
+    });
+
+    document.querySelectorAll("thead th").forEach(th => {
+      th.addEventListener("click", ()=>{
+        const col = th.dataset.col;
+        if (state.sortCol === col){
+          state.sortDir = state.sortDir === "asc" ? "desc" : "asc";
+        } else {
+          state.sortCol = col; state.sortDir = "asc";
+        }
+        renderAll();
+      });
+      th.addEventListener("keydown", e=>{
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          th.click();
+        }
+      });
+    });
+
+    // Empty-plot note inline
+    document.getElementById("empty-plot-note").innerHTML =
+      "No accounts currently have <strong>verified</strong> revenue and employee counts — every row in <code>data/accounts_enriched.csv</code> shows <span class=\"mono\">UNKNOWN</span> for both (AGENTS.md rule 4 forbids substituting values). The plane below shows the target quadrants once firmographics arrive; nothing is faked to fill it. <strong>0 of 20 points plotted.</strong>";
+
+    renderAll();
+  }
+
+  init();
+</script>
+</body>
+</html>
