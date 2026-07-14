@@ -302,7 +302,7 @@ HTML = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Factory Territory — Prospecting Tool</title>
 <style>
-:root{--bg:#fff;--bg-alt:#f8fafc;--bg-soft:#f1f5f9;--fg:#0f172a;--fg-muted:#475569;--fg-faint:#94a3b8;--border:#e2e8f0;--border-strong:#cbd5e1;--accent:#0a4d68;--accent-soft:#cffafe;--row-hover:#f8fafc;--status-not_started:#94a3b8;--status-researched:#1d4ed8;--status-contacted:#0e7490;--status-replied:#047857;--status-meeting:#15803d;--status-disqualified:#be123c;--warn-amber:#b45309;--warn-red:#be123c;--fresh:#16a34a;--focus:#f59e0b;--priority-1:#047857;--priority-2:#0e7490;--priority-3:#1d4ed8;--priority-4:#b45309;--priority-5:#be123c;--verified:#16a34a;--inferred:#b45309;--slot-only:#94a3b8}
+:root{--bg:#fff;--bg-alt:#f8fafc;--bg-soft:#f1f5f9;--fg:#0f172a;--fg-muted:#475569;--fg-faint:#94a3b8;--border:#e2e8f0;--border-strong:#cbd5e1;--accent:#0a4d68;--accent-soft:#cffafe;--row-hover:#f8fafc;--status-not_started:#94a3b8;--status-researched:#1d4ed8;--status-contacted:#0e7490;--status-replied:#047857;--status-meeting:#15803d;--status-disqualified:#be123c;--warn-amber:#b45309;--warn-red:#be123c;--warn-red-text:#9b1c2e;--fresh:#15803d;--fresh-text:#15803d;--focus:#f59e0b;--priority-1:#047857;--priority-2:#0e7490;--priority-3:#1d4ed8;--priority-4:#b45309;--priority-5:#be123c;--verified:#047857;--inferred:#92400e;--slot-only:#475569;--callout-bg:rgba(240,180,40,0.10);--callout-border:#C98A16;--callout-text:#F0D6A0;--callout-heading:#F5C563;--callout-bg-red:rgba(190,18,60,0.12);--callout-border-red:#C91843;--callout-text-red:#F9C5CD;--callout-heading-red:#F87171;--callout-bg-green:rgba(22,163,74,0.12);--callout-border-green:#15803d;--callout-text-green:#A7E8C0;--callout-heading-green:#34D399}
 @media (prefers-color-scheme:dark){:root{--bg:#0f172a;--bg-alt:#1e293b;--bg-soft:#334155;--fg:#f1f5f9;--fg-muted:#cbd5e1;--fg-faint:#64748b;--border:#334155;--border-strong:#475569;--accent:#67e8f9;--accent-soft:#155e75;--row-hover:#1e293b}}
 *,*::before,*::after{box-sizing:border-box}
 html{font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45}
@@ -317,7 +317,7 @@ main{padding:18px 24px 60px;max-width:1500px;margin:0 auto}.panel{background:var
 .row{display:flex;flex-wrap:wrap;gap:12px}.row > *{flex:1 1 240px;min-width:220px}
 .today-headline{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.today-headline h2{font-size:22px;margin:0;font-weight:600}
 .work-queue-section{margin-bottom:22px}.work-queue-section h2{font-size:14px;margin:0 0 8px;color:var(--fg-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.work-item{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:6px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline}.work-item:hover{background:var(--row-hover)}.work-item .title{font-weight:600}.work-item .sub{font-size:12px;color:var(--fg-muted);margin-top:2px}.work-item .meta{font-size:11.5px;color:var(--fg-muted);white-space:nowrap;text-align:right}.work-item .pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg);color:var(--fg-muted);margin-left:4px}.work-item .pill.overdue{background:#fee2e2;color:var(--warn-red);border-color:var(--warn-red)}.work-item .pill.due-today{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}.work-item .pill.stale-amber{background:#fef3c7;color:var(--warn-amber);border-color:var(--warn-amber)}.work-item .pill.stale-red{background:#fee2e2;color:var(--warn-red);border-color:var(--warn-red)}.work-item .pill.fresh{background:#dcfce7;color:var(--fresh);border-color:var(--fresh)}
+.work-item{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:6px;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:baseline}.work-item:hover{background:var(--row-hover)}.work-item .title{font-weight:600}.work-item .sub{font-size:12px;color:var(--fg-muted);margin-top:2px}.work-item .meta{font-size:11.5px;color:var(--fg-muted);white-space:nowrap;text-align:right}.work-item .pill{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:8px;border:1px solid var(--border-strong);background:var(--bg);color:var(--fg-muted);margin-left:4px}.work-item .pill.overdue{background:var(--callout-bg-red);color:var(--callout-heading-red);border-color:var(--callout-border-red);font-weight:600}.work-item .pill.due-today{background:var(--accent-soft);color:var(--accent);border-color:var(--accent);font-weight:600}.work-item .pill.stale-amber{background:var(--callout-bg);color:var(--callout-heading);border-color:var(--callout-border);font-weight:600}.work-item .pill.stale-red{background:var(--callout-bg-red);color:var(--callout-heading-red);border-color:var(--callout-border-red);font-weight:600}.work-item .pill.fresh{background:var(--callout-bg-green);color:var(--callout-heading-green);border-color:var(--callout-border-green);font-weight:600}
 .empty-state{background:var(--bg-alt);border:1px dashed var(--border-strong);border-radius:4px;padding:24px;text-align:center;color:var(--fg-muted)}
 .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:10px 14px;background:var(--bg-alt);border:1px solid var(--border);border-radius:4px;margin-bottom:12px}
 .filter-group{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.filter-label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-faint);font-weight:600}
@@ -325,7 +325,7 @@ main{padding:18px 24px 60px;max-width:1500px;margin:0 auto}.panel{background:var
 .search-input{border:1px solid var(--border-strong);border-radius:3px;padding:5px 9px;min-width:240px;font-size:13px;background:var(--bg);color:var(--fg)}
 .acct-layout{display:grid;grid-template-columns:320px 1fr;gap:14px}
 .acct-list{max-height:75vh;overflow:auto;padding:0;border:1px solid var(--border);border-radius:4px;background:var(--bg)}
-.acct-row{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer}.acct-row:hover{background:var(--row-hover)}.acct-row.active{background:#fef9c3;border-left:3px solid var(--accent);padding-left:9px}
+.acct-row{padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer}.acct-row:hover{background:var(--row-hover)}.acct-row.active{background:var(--callout-bg);border-left:3px solid var(--accent);padding-left:9px;color:var(--callout-heading)}
 .acct-row .name{font-weight:600}.acct-row .sub{font-size:11.5px;color:var(--fg-muted);margin-top:2px}.acct-row .quick-status{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:8px;margin-top:4px}
 .acct-detail .detail-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}.acct-detail .detail-head h2{font-size:20px;margin:0}.acct-detail .detail-head .hq{font-size:12.5px;color:var(--fg-muted)}
 .verdict-pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:8px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid}.verdict-pill.PROCEED{background:#dcfce7;color:var(--fresh);border-color:var(--fresh)}.verdict-pill.HOLD{background:#fef3c7;color:var(--warn-amber);border-color:var(--warn-amber)}.verdict-pill.PAUSE{background:#fee2e2;color:var(--warn-red);border-color:var(--warn-red)}
@@ -341,29 +341,28 @@ main{padding:18px 24px 60px;max-width:1500px;margin:0 auto}.panel{background:var
 @media (max-width:980px){.section-grid{grid-template-columns:1fr}.acct-layout{grid-template-columns:1fr}}
 .sect{border:1px solid var(--border);border-radius:4px;padding:12px 14px}.sect h3{font-size:12.5px;margin:0 0 8px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-muted)}
 textarea,input[type=text],input[type=date],input[type=number],input[type=range]{width:100%;border:1px solid var(--border-strong);border-radius:3px;padding:6px 9px;font-size:13px;background:var(--bg);color:var(--fg);font-family:inherit}textarea{min-height:70px;resize:vertical}
-.contact-card{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px}.contact-card .name-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.contact-card .name-row .name{font-weight:600}.contact-card .slot-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-faint);font-weight:600}.contact-card .title{font-size:12px;color:var(--fg-muted)}.conf{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:8px;border:1px solid;font-weight:600;letter-spacing:.04em}.conf.VERIFIED{background:#dcfce7;color:var(--verified);border-color:var(--verified)}.conf.INFERRED{background:#fef3c7;color:var(--inferred);border-color:var(--inferred)}.conf.SLOT_ONLY{background:#f1f5f9;color:var(--slot-only);border-color:var(--slot-only)}
+.contact-card{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px}.contact-card .name-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.contact-card .name-row .name{font-weight:600}.contact-card .slot-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-faint);font-weight:600}.contact-card .title{font-size:12px;color:var(--fg-muted)}.conf{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:8px;border:1px solid;font-weight:600;letter-spacing:.04em}.conf.VERIFIED{background:var(--callout-bg-green);color:var(--callout-heading-green);border-color:var(--callout-border-green)}.conf.INFERRED{background:var(--callout-bg);color:var(--callout-heading);border-color:var(--callout-border)}.conf.SLOT_ONLY{background:var(--bg-soft);color:var(--fg);border-color:var(--border-strong)}
 .contact-card .meta{font-size:11.5px;color:var(--fg-muted);margin-top:4px}.contact-card .why{font-size:12px;color:var(--fg);margin-top:4px;font-style:italic}
-.touch{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}.touch.sent{background:#f0fdf4;border-color:var(--fresh)}
+.touch{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}.touch.sent{background:var(--callout-bg-green);border-color:var(--callout-border-green)}
 .touch-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.touch-num{font-weight:700;color:var(--accent);font-size:13px}.touch-day{font-size:11.5px;color:var(--fg-muted)}.touch .touch-date{font-size:11.5px;color:var(--fg-muted);margin-left:auto}
 .touch textarea{min-height:60px;margin-top:6px}
 .touch .touch-controls{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:6px}.touch .char-count{font-size:11px;color:var(--fg-muted);margin-right:6px}.touch .char-count.warn{color:var(--warn-amber);font-weight:600}.touch .char-count.bad{color:var(--warn-red);font-weight:700}
 .touch .sent-stamp{font-size:11.5px;color:var(--fresh);font-weight:600}.touch .unmark-sent{color:var(--fg-faint);font-size:11.5px;cursor:pointer;text-decoration:underline;background:none;border:none;padding:0}
-.signal-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px}.signal-row:last-child{border-bottom:none}.signal-row .age{font-size:11px;color:var(--fg-muted);font-variant-numeric:tabular-nums}.signal-row .badge{font-size:10.5px;padding:1px 6px;border-radius:8px;border:1px solid}.signal-row .badge.fresh{background:#dcfce7;color:var(--fresh);border-color:var(--fresh)}.signal-row .badge.amber{background:#fef3c7;color:var(--warn-amber);border-color:var(--warn-amber)}.signal-row .badge.red{background:#fee2e2;color:var(--warn-red);border-color:var(--warn-red)}.signal-row .re-verify{font-size:11px;color:var(--accent);cursor:pointer;background:none;border:1px solid var(--border-strong);padding:2px 7px;border-radius:3px}
+.signal-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px}.signal-row:last-child{border-bottom:none}.signal-row .age{font-size:11px;color:var(--fg-muted);font-variant-numeric:tabular-nums}.signal-row .badge{font-size:10.5px;padding:1px 6px;border-radius:8px;border:1px solid}.signal-row .badge.fresh{background:var(--callout-bg-green);color:var(--callout-heading-green);border-color:var(--callout-border-green);font-weight:600}.signal-row .badge.amber{background:var(--callout-bg);color:var(--callout-heading);border-color:var(--callout-border);font-weight:600}.signal-row .badge.red{background:var(--callout-bg-red);color:var(--callout-heading-red);border-color:var(--callout-border-red);font-weight:600}.signal-row .re-verify{font-size:11px;color:var(--accent);cursor:pointer;background:none;border:1px solid var(--border-strong);padding:2px 7px;border-radius:3px}
 .ref-list{list-style:decimal-leading-zero;padding:0 0 0 24px;margin:0;max-height:240px;overflow:auto;font-size:12.5px}.ref-list li{padding:4px 0;border-bottom:1px solid var(--border);color:var(--fg-muted)}.ref-list li a{color:var(--accent)}.ref-list li .label{color:var(--fg-faint);margin-left:6px}.ref-list li .date{color:var(--fg-faint);font-family:ui-monospace,monospace;font-size:11px;margin-left:6px}
-.complication-block{background:#fef9c3;border-left:3px solid var(--warn-amber);padding:10px 12px;font-size:13px;color:var(--fg)}
-@media (prefers-color-scheme:dark){.complication-block{background:#27272a;color:var(--fg)}.acct-row.active{background:#422006}}
-.complication-block strong{color:var(--warn-amber)}
+.complication-block{background:var(--callout-bg);border-left:3px solid var(--callout-border);padding:10px 12px;font-size:13px;color:var(--callout-text)}
+@media (prefers-color-scheme:dark){.complication-block{background:var(--callout-bg);color:var(--callout-text)}.acct-row.active{background:rgba(240,180,40,0.18);color:var(--callout-heading)}}
+.complication-block strong{color:var(--callout-heading)}
 .checklist label{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:12.5px}
 .outreach-tabs{display:flex;gap:4px;margin-bottom:8px}.outreach-tab{padding:4px 10px;border:1px solid var(--border-strong);border-radius:12px;cursor:pointer;font-size:12px;color:var(--fg-muted);background:var(--bg)}.outreach-tab[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
-.outreach-slot{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}.outreach-slot h4{font-size:12.5px;margin:0 0 4px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase}.outreach-slot .subj{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--bg-soft);padding:2px 6px;border-radius:3px;margin-bottom:6px;display:inline-block;color:var(--fg-muted)}.outreach-slot .body{font-size:12.5px;white-space:pre-wrap;color:var(--fg)}.outreach-slot .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11px;color:var(--fg-muted)}.outreach-slot .copy-inline{font-size:11.5px;color:var(--accent);background:none;border:1px solid var(--border-strong);padding:2px 8px;border-radius:3px;cursor:pointer}
-.plan-grid{display:grid;grid-template-columns:88px 1fr;gap:6px 14px;font-size:12.5px;align-items:baseline}.plan-grid dt{font-weight:600;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.plan-grid dd{margin:0;color:var(--fg)}.plan-disqualify{background:#fee2e2;border:1px solid var(--warn-red);border-radius:3px;padding:8px 10px;margin-top:10px;font-size:12.5px;color:var(--warn-red)}.plan-disqualify strong{color:var(--warn-red)}
-.meddpicc-bar{display:grid;grid-template-columns:130px 1fr 36px;gap:8px;align-items:center;padding:3px 0;font-size:12.5px}.meddpicc-bar .track{height:8px;background:var(--bg-soft);border-radius:4px;overflow:hidden}.meddpicc-bar .fill{height:100%;background:var(--accent);border-radius:4px}.meddpicc-bar .score{font-family:ui-monospace,monospace;font-weight:700;text-align:right}.meddpicc-total{margin-top:8px;padding:8px 12px;background:var(--bg-soft);border-radius:4px;display:flex;justify-content:space-between;font-weight:600;font-size:13.5px}.meddpicc-total .band-label{font-size:11px;padding:2px 8px;border-radius:8px;background:var(--accent);color:#fff;text-transform:uppercase;letter-spacing:.04em}.meddpicc-biggest{margin-top:8px;font-size:12px;color:var(--fg-muted);background:#fef9c3;border-left:3px solid var(--warn-amber);padding:6px 10px}
+.outreach-slot{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}.outreach-slot h4{font-size:12.5px;margin:0 0 4px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase}.outreach-slot .subj{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--bg-soft);padding:2px 6px;border-radius:3px;margin-bottom:6px;display:inline-block;color:var(--fg-muted)}.outreach-slot .body{font-size:12.5px;white-space:pre-wrap;color:var(--fg)}.outreach-slot .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11px;color:var(--fg-muted)}.outreach-slot .copy-inline{font-size:11.5px;color:#fff;background:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:3px;cursor:pointer}
+.plan-grid{display:grid;grid-template-columns:88px 1fr;gap:6px 14px;font-size:12.5px;align-items:baseline}.plan-grid dt{font-weight:600;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.plan-grid dd{margin:0;color:var(--fg)}.plan-disqualify{background:var(--callout-bg-red);border:1px solid var(--callout-border-red);border-radius:3px;padding:8px 10px;margin-top:10px;font-size:12.5px;color:var(--callout-text-red)}.plan-disqualify strong{color:var(--callout-heading-red)}
+.meddpicc-bar{display:grid;grid-template-columns:130px 1fr 36px;gap:8px;align-items:center;padding:3px 0;font-size:12.5px}.meddpicc-bar .track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}.meddpicc-bar .fill{height:100%;background:var(--accent);border-radius:4px}.meddpicc-bar .score{font-family:ui-monospace,monospace;font-weight:700;text-align:right}.meddpicc-total{margin-top:8px;padding:8px 12px;background:var(--callout-bg);border-radius:4px;display:flex;justify-content:space-between;font-weight:600;font-size:13.5px;color:var(--callout-text)}.meddpicc-total .band-label{font-size:11px;padding:2px 8px;border-radius:8px;background:var(--accent);color:#fff;text-transform:uppercase;letter-spacing:.04em}.meddpicc-biggest{margin-top:8px;font-size:12px;color:var(--callout-text);background:var(--callout-bg);border-left:3px solid var(--callout-border);padding:6px 10px}
 .forecast-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:980px){.forecast-grid{grid-template-columns:1fr}}
 .forecast-slider{display:grid;grid-template-columns:160px 1fr 80px;gap:8px;align-items:center;padding:6px 0;font-size:12.5px}.forecast-slider label{font-size:11.5px;color:var(--fg-muted)}.forecast-slider input[type=range]{width:100%}.forecast-slider .val{font-family:ui-monospace,monospace;text-align:right;font-weight:600}
-.forecast-output{background:var(--bg-soft);border-radius:4px;padding:12px 14px;font-size:13px}.forecast-output .top{margin-bottom:8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg-muted)}.forecast-output .big{font-size:24px;font-weight:700;margin-bottom:4px}.forecast-output .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}.forecast-output .pair .weight{font-family:ui-monospace,monospace}
-.forecast-output .weighted{background:#fef3c7;border-left:3px solid var(--warn-amber);padding:10px 12px;border-radius:3px;margin-top:10px}
-.forecast-output .weighted .gap{font-size:18px;font-weight:700;color:var(--warn-amber)}
+.forecast-output{background:var(--callout-bg);border:1px solid var(--callout-border);border-radius:4px;padding:12px 14px;font-size:13px;color:var(--callout-text)}.forecast-output .top{margin-bottom:8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--callout-heading);font-weight:600}.forecast-output .big{font-size:24px;font-weight:700;margin-bottom:4px;color:var(--callout-heading)}.forecast-output .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}.forecast-output .pair .weight{font-family:ui-monospace,monospace;color:var(--callout-heading);font-weight:600}
+.forecast-output .comparison{margin-top:14px;padding-top:10px;border-top:1px solid var(--callout-border);font-size:12px;color:var(--callout-text)}.forecast-output .gap-line{margin-top:10px;padding:8px 10px;border-radius:3px;background:rgba(240,180,40,0.18);font-size:12.5px;color:var(--callout-heading)}.forecast-output .gap-line strong{color:var(--callout-heading)}
 .assumptions-panel{margin-top:14px}.assumptions-panel table{font-size:12px;width:100%;border-collapse:collapse}.assumptions-panel th,.assumptions-panel td{padding:6px 8px;border:1px solid var(--border);text-align:left;vertical-align:top}.assumptions-panel th{background:var(--bg-soft);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--fg-muted);font-weight:600}.assumptions-panel .who{font-style:italic;color:var(--accent)}
 .thesis-writeup{background:var(--bg-alt);border:1px solid var(--border);border-radius:4px;padding:14px 18px;margin-top:14px;border-left:3px solid var(--accent)}.thesis-writeup h3{font-size:15px;margin:0 0 8px}.thesis-writeup p{margin:0 0 10px;line-height:1.55}.thesis-writeup p strong{color:var(--accent)}
 .axis-text{font-family:ui-monospace,monospace;font-size:10.5px;fill:var(--fg-muted)}.axis-line{stroke:var(--border-strong);stroke-width:1}.threshold-line{stroke:var(--fg-faint);stroke-width:1;stroke-dasharray:4 3}.quadrant-label{font-family:ui-sans-serif,sans-serif;font-size:11px;fill:var(--fg-faint);letter-spacing:.04em;text-transform:uppercase}.axis-title{font-family:ui-sans-serif,sans-serif;font-size:11.5px;fill:var(--fg);font-weight:600}.point{stroke:#fff;stroke-width:2;cursor:pointer}.point[data-priority="1"]{fill:var(--priority-1)}.point[data-priority="2"]{fill:var(--priority-2)}.point[data-priority="3"]{fill:var(--priority-3)}.point[data-priority="4"]{fill:var(--priority-4)}.point[data-priority="5"]{fill:var(--priority-5)}.point.dim{opacity:.12}.point:focus-visible,.point:hover{stroke:var(--accent);stroke-width:3}
@@ -415,10 +414,10 @@ footer{padding:16px 24px 30px;border-top:1px solid var(--border);font-size:12px;
 </section>
 
 <section class="tab-panel" data-tab-panel="forecast" hidden>
-  <div class="panel" style="background:#fef9c3;border-left:3px solid var(--warn-amber);">
-    <h2 style="color:var(--warn-amber);">Forecasting the territory</h2>
-    <p style="font-size:13.5px;line-height:1.55;margin:0;color:var(--fg);">
-      <strong>This is not a commit.</strong> I have zero conversations and zero pipeline. This is a model of what it would TAKE — built on assumptions I need corrected by someone who knows the real numbers. Move any slider to see the model move.
+  <div class="panel" style="background:var(--callout-bg);border-left:3px solid var(--callout-border);color:var(--callout-text);">
+    <h2 style="color:var(--callout-heading);">Forecasting the territory</h2>
+    <p style="font-size:13.5px;line-height:1.55;margin:0;">
+      <strong style="color:var(--callout-heading);">This is not a commit.</strong> I have zero conversations and zero pipeline. This is a model of what it would TAKE — built on assumptions I need corrected by someone who knows the real numbers. Move any slider to see the model move.
     </p>
   </div>
   <div class="forecast-grid">
@@ -774,49 +773,66 @@ function parseOutreach(raw){
 }
 
 // -- FORECAST --
+// All money stored internally in actual dollars (not scaled).
+// Display goes through fmtMoney() — never render raw digit strings.
+function fmtMoney(n){
+  n = Number(n) || 0;
+  const abs = Math.abs(n);
+  if(abs >= 1e9) return "$" + (n/1e9).toFixed(1) + "B";
+  if(abs >= 1e6) return "$" + (n/1e6).toFixed(abs >= 1e7 ? 0 : 1) + "M";
+  if(abs >= 1e3) return "$" + (n/1e3).toFixed(0) + "k";
+  if(n === 0) return "$0";
+  return "$" + Math.round(n);
+}
 const FORECAST_DEFAULTS = {
-  accounts:20, outreach_to_meeting:5, meeting_to_opp:30, opp_to_won:20,
-  acv:150000, cycle_days:180, regulated_def_multiplier:1.5, ramp_weeks:4,
-  quota:3000000, sd_share:50, sd_cycle_days:210, sd_acv:200000,
-  denver_cycle_days:150, denver_acv:120000, opp_size_baseline:5,
+  accounts:20,
+  outreach_to_meeting:5, meeting_to_opp:30, opp_to_won:20,
+  acv:150000,             // dollars — $150k
+  cycle_days:180, regulated_def_multiplier:1.5, ramp_weeks:4,
+  quota:3000000,          // dollars — $3.0M
+  sd_share:50, sd_cycle_days:210, sd_acv:200000,        // SD avg ACV dollars — $200k
+  denver_cycle_days:150, denver_acv:120000,             // Denver avg ACV dollars — $120k
+  opp_size_baseline:5,
   use_meddpicc_weight:true,
 };
-function loadForecastDefaults(){
-}
 function renderForecast(){
   STATE.forecast=STATE.forecast||{};
   const f=Object.assign({},FORECAST_DEFAULTS,STATE.forecast);
+  const pct={suffix:"%"};
+  const days={unit:"d"};
+  const money={isMoney:true};
+  const moneySD={isMoney:true, formatMin:50, formatStep:50, max:500000};
   const sliders=[
     {key:"accounts",label:"Accounts in queue",min:1,max:50,step:1},
-    {key:"outreach_to_meeting",label:"Outreach → Meeting",min:1,max:20,step:1,suffix:"%"},
-    {key:"meeting_to_opp",label:"Meeting → Opp",min:5,max:60,step:5,suffix:"%"},
-    {key:"opp_to_won",label:"Opp → Won",min:5,max:60,step:5,suffix:"%"},
-    {key:"acv",label:"Avg ACV (unweighted baseline)",min:50,max:500,step:10,suffix:"k"},
-    {key:"cycle_days",label:"Sales cycle (days)",min:60,max:540,step:30,unit:"d"},
+    {key:"outreach_to_meeting",label:"Outreach → Meeting",min:1,max:20,step:1, ...pct},
+    {key:"meeting_to_opp",label:"Meeting → Opp",min:5,max:60,step:5, ...pct},
+    {key:"opp_to_won",label:"Opp → Won",min:5,max:60,step:5, ...pct},
+    {key:"acv",label:"Avg ACV (unweighted baseline)",min:50000,max:500000,step:10000, ...money},
+    {key:"cycle_days",label:"Sales cycle (days)",min:60,max:540,step:30, ...days},
     {key:"regulated_def_multiplier",label:"Regulated/defense multiplier",min:1,max:3,step:0.1,suffix:"x"},
     {key:"ramp_weeks",label:"Rep ramp (weeks)",min:1,max:12,step:1,unit:"wk"},
-    {key:"quota",label:"Quota ($M)",min:1,max:10,step:0.5,suffix:"M"},
+    {key:"quota",label:"Quota",min:500000,max:10000000,step:500000, ...money},
   ];
   const seg=[
-    {key:"sd_share",label:"SD share of accounts",min:0,max:100,step:5,suffix:"%"},
-    {key:"sd_cycle_days",label:"SD sales cycle",min:60,max:540,step:30,unit:"d"},
-    {key:"sd_acv",label:"SD avg ACV",min:50,max:500,step:10,suffix:"k"},
-    {key:"denver_cycle_days",label:"Denver sales cycle",min:60,max:540,step:30,unit:"d"},
-    {key:"denver_acv",label:"Denver avg ACV",min:50,max:500,step:10,suffix:"k"},
+    {key:"sd_share",label:"SD share of accounts",min:0,max:100,step:5, ...pct},
+    {key:"sd_cycle_days",label:"SD sales cycle",min:60,max:540,step:30, ...days},
+    {key:"sd_acv",label:"SD avg ACV",min:50000,max:500000,step:10000, ...money},
+    {key:"denver_cycle_days",label:"Denver sales cycle",min:60,max:540,step:30, ...days},
+    {key:"denver_acv",label:"Denver avg ACV",min:50000,max:500000,step:10000, ...money},
     {key:"opp_size_baseline",label:"Avg opp size (lines per opp)",min:1,max:20,step:1},
   ];
-  const fmt=(v,suffix,unit)=>{
-    if(suffix==="%")return v+"%";
-    if(suffix==="x")return v.toFixed(1)+"x";
-    if(suffix==="k")return "$"+(v*1000).toLocaleString();
-    if(suffix==="M")return "$"+(v*1000000).toLocaleString();
-    if(unit==="d")return v+"d";
-    if(unit==="wk")return v+"wk";
-    return v;
-  };
+  function fmtSlider(s, v){
+    v = Number(v) || 0;
+    if(s.isMoney) return fmtMoney(v);
+    if(s.suffix==="%") return v + "%";
+    if(s.suffix==="x") return v.toFixed(1) + "x";
+    if(s.unit==="d") return v + "d";
+    if(s.unit==="wk") return v + "wk";
+    return String(v);
+  }
   const renderSlider=(s)=>{
     const val=f[s.key];
-    return `<div class="forecast-slider"><label>${s.label}</label><input type="range" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" data-key="${s.key}"><span class="val" id="fk-${s.key}">${fmt(val,s.suffix,s.unit)}</span></div>`;
+    return `<div class="forecast-slider"><label>${s.label}</label><input type="range" min="${s.min}" max="${s.max}" step="${s.step}" value="${val}" data-key="${s.key}"><span class="val" id="fk-${s.key}">${fmtSlider(s, val)}</span></div>`;
   };
   document.getElementById("forecast-sliders").innerHTML=
     `<h3>Volume & conversion</h3>`+sliders.map(renderSlider).join("")+
@@ -825,55 +841,78 @@ function renderForecast(){
     `<div class="forecast-slider"><label>MEDDPICC weight</label><label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer;"><input type="checkbox" id="fk-use_meddpicc_weight" ${f.use_meddpicc_weight?"checked":""}> Shift pipeline by Σ(ACV × MEDDPICC_score / 24)</label><span class="val">on/off</span></div>`;
   document.querySelectorAll("#forecast-sliders input[type=range]").forEach(inp=>{
     inp.addEventListener("input",()=>{
-      f[inp.dataset.key]=parseFloat(inp.value);STATE.forecast=Object.assign({},f);saveState();refreshForecastOutput();});
+      f[inp.dataset.key]=parseFloat(inp.value);
+      STATE.forecast=Object.assign({},f);
+      saveState();
+      const slider=sliders.concat(seg).find(s=>s.key===inp.dataset.key);
+      if(slider){
+        const valEl=document.getElementById("fk-"+inp.dataset.key);
+        if(valEl) valEl.textContent=fmtSlider(slider, parseFloat(inp.value));
+      }
+      refreshForecastOutput();
+    });
   });
   document.getElementById("fk-use_meddpicc_weight").addEventListener("change",e=>{
-    f.use_meddpicc_weight=e.target.checked;STATE.forecast=Object.assign({},f);saveState();refreshForecastOutput();
+    f.use_meddpicc_weight=e.target.checked;
+    STATE.forecast=Object.assign({},f);
+    saveState();
+    refreshForecastOutput();
   });
   refreshForecastOutput();
 }
 function refreshForecastOutput(){
   const f=Object.assign({},FORECAST_DEFAULTS,STATE.forecast);
-  const sdAccounts=f.accounts*(f.sd_share/100);
-  const denAccounts=f.accounts-sdAccounts;
-  const cycleAdjustedSd=f.sd_cycle_days*f.regulated_def_multiplier;
-  const meetings=f.accounts*(f.outreach_to_meeting/100);
-  const opps=meetings*(f.meeting_to_opp/100);
-  const won=opps*(f.opp_to_won/100);
-  const unweighted=won*f.acv;
-  let weighted=0;
-  const weightLines=[];
-  if(f.use_meddpicc_weight){
-    ACCOUNTS.forEach(a=>{
-      const m=MEDDPICC[a.meddpicc_key];
-      const score=m?(m.total_score||0):0;
-      const w=f.acv*(score/24);
-      weighted+=w;
-      weightLines.push({a,score,w});
-    });
+  const sdAccounts = f.accounts * (f.sd_share/100);
+  const denAccounts = f.accounts - sdAccounts;
+  // Operating funnel (still useful but not the hero metric):
+  const meetings = f.accounts * (f.outreach_to_meeting/100);
+  const opps     = meetings * (f.meeting_to_opp/100);
+  const won      = opps * (f.opp_to_won/100);
+  // Pipeline math — BOTH unweighted and weighted use the SAME account set and the SAME ACV.
+  // Unweighted = Σ ACV across all accounts (probability factor = 1, no MEDDPICC discounting)
+  // Weighted   = Σ ACV × MEDDPICC_score / 24 across all accounts (probability factor = per-account score)
+  // Since score/24 ≤ 1 always, weighted ≤ unweighted and gap ≥ 0 always.
+  let unweighted = 0, weighted = 0;
+  let countWithMeddpicc = 0, scoreSum = 0;
+  ACCOUNTS.forEach(a => {
+    const m = MEDDPICC[a.meddpicc_key];
+    const score = m ? (m.total_score || 0) : 0;
+    unweighted += f.acv;
+    if(f.use_meddpicc_weight){
+      weighted += f.acv * (score / 24);
+      countWithMeddpicc++;
+      scoreSum += score;
+    } else {
+      weighted = unweighted; // disabling weight collapses to unweighted
+    }
+  });
+  // assertion: weighted ≤ unweighted; gap ≥ 0
+  if(weighted > unweighted + 0.01){
+    // (should be unreachable) — log for diagnostics rather than clamp
+    console.warn("forecast: weighted > unweighted — formula is wrong");
   }
-  // Segment-split sub-block
+  const gap = unweighted - weighted;
+  // Segment sub-block (operating funnel + per-segment ACV math)
   const sdACV = sdAccounts * (f.outreach_to_meeting/100) * (f.meeting_to_opp/100) * (f.opp_to_won/100) * f.sd_acv;
   const denACV = denAccounts * (f.outreach_to_meeting/100) * (f.meeting_to_opp/100) * (f.opp_to_won/100) * f.denver_acv;
 
-  const gap = unweighted - weighted;
+  const contactRate = (f.outreach_to_meeting/100) * (f.meeting_to_opp/100) * (f.opp_to_won/100);
+  const fkUseSliders = document.getElementById("fk-use_meddpicc_weight");
+  const weightOn = fkUseSliders ? fkUseSliders.checked : f.use_meddpicc_weight;
+
   document.getElementById("forecast-output").innerHTML=`
-    <div class="top">Forecast (model output)</div>
-    <div class="big">$${(unweighted/1e6).toFixed(1)}M unweighted ARR</div>
+    <div class="top">Pipeline forecast</div>
+    <div class="big">${fmtMoney(weighted)} <span style="font-size:14px;font-weight:400;color:var(--callout-text);">MEDDPICC-weighted pipeline</span></div>
+    <div class="comparison">Unweighted (full-ACV × account-count) baseline: <strong>${fmtMoney(unweighted)}</strong>. Same account set, same ACV — the difference is the per-account qualification factor.</div>
+    <div class="gap-line"><strong>Gap:</strong> ${fmtMoney(gap)} unweighted − weighted. <span>The gap is the pipeline I have NOT earned yet — dollars I'd be forecasting on assumption rather than evidence.</span></div>
+
+    <div class="top" style="margin-top:14px;">By segment</div>
     <div class="pair">
-      <div><strong>SD segment</strong><br>$${(sdACV/1e6).toFixed(2)}M · cycle ${f.sd_cycle_days}d · ACV $${(f.sd_acv).toLocaleString()} · share ${f.sd_share}% <em>(defense+firmware: longer cycle, larger ACV, harder procurement)</em></div>
-      <div><strong>Denver segment</strong><br>$${(denACV/1e6).toFixed(2)}M · cycle ${f.denver_cycle_days}d · ACV $${(f.denver_acv).toLocaleString()} · share ${100-f.sd_share}% <em>(finserv+telecom: shorter cycle, clearer ROI)</em></div>
+      <div><strong style="color:var(--callout-heading);">San Diego</strong><br>${fmtMoney(sdACV)} · cycle ${f.sd_cycle_days}d · ACV ${fmtMoney(f.sd_acv)} · share ${f.sd_share}% <em>(defense+firmware: longer cycle, larger ACV, harder procurement)</em></div>
+      <div><strong style="color:var(--callout-heading);">Denver</strong><br>${fmtMoney(denACV)} · cycle ${f.denver_cycle_days}d · ACV ${fmtMoney(f.denver_acv)} · share ${100-f.sd_share}% <em>(finserv+telecom: shorter cycle, clearer ROI)</em></div>
     </div>
-    <div class="weighted">
-      <div class="top">MEDDPICC-WEIGHTED PIPELINE = Σ(ACV × score/24)</div>
-      <div class="big" style="color:var(--warn-amber);">$${(weighted/1e6).toFixed(2)}M weighted</div>
-      <div class="pair">
-        <div><strong>Unweighted</strong><br><span class="weight">$${(unweighted/1e6).toFixed(2)}M</span></div>
-        <div><strong>Weighted</strong><br><span class="weight">$${(weighted/1e6).toFixed(2)}M</span></div>
-      </div>
-      <div style="margin-top:6px;font-size:12px;color:var(--fg-muted);">Gap (unweighted − weighted) = <span class="gap">$${(gap/1e6).toFixed(2)}M</span> — this is the dollar cost of negative signals &amp; unverified champions per the MEDDPICC framework.</div>
-    </div>
-    <div style="margin-top:8px;font-size:12px;color:var(--fg-muted);">Quota $${(f.quota/1e6).toFixed(1)}M · ramp ${f.ramp_weeks} wk · won ${won.toFixed(1)} opps/quarter · of ${f.accounts} accounts.</div>
+
+    <div class="comparison"><strong>Operating funnel</strong> &middot; meetings <span style="font-family:ui-monospace,monospace;">${meetings.toFixed(2)}</span> · opps <span style="font-family:ui-monospace,monospace;">${opps.toFixed(2)}</span> · won <span style="font-family:ui-monospace,monospace;">${won.toFixed(2)}</span> · quota ${fmtMoney(f.quota)} · ramp ${f.ramp_weeks} wk · ${f.accounts} accounts · weight ${weightOn?"ON (Σ ACV × score/24)":"OFF (= unweighted)"}</div>
   `;
   document.getElementById("forecast-assumptions").innerHTML=`
     <div class="assumptions-panel">
@@ -881,15 +920,16 @@ function refreshForecastOutput(){
       <table>
         <tr><th>Assumption</th><th>Value</th><th>Who corrects this?</th></tr>
         <tr><td>Outreach → Meeting rate</td><td>${f.outreach_to_meeting}%</td><td class="who">A working AE inside Factory or a peer rep at another dev-tools company</td></tr>
-        <tr><td>Meeting → Opp conversion</td><td>${f.meeting_to_opp}%</td><td class="who">A Field AE / Sales Director who has closed $200k+ ACV deals in 2025 or 2026</td></tr>
+        <tr><td>Meeting → Opp conversion</td><td>${f.meeting_to_opp}%</td><td class="who">A Field AE / Sales Director who has closed ${fmtMoney(200000)}+ ACV deals in 2025 or 2026</td></tr>
         <tr><td>Opp → Won close rate</td><td>${f.opp_to_won}%</td><td class="who">A Field AE working the same segment (finserv / defense) over 18 months</td></tr>
-        <tr><td>Avg ACV (baseline)</td><td>$${f.acv.toLocaleString()}</td><td class="who">Someone with actual P&amp;L access, not a sales-engineering estimate</td></tr>
+        <tr><td>Avg ACV (baseline)</td><td>${fmtMoney(f.acv)}</td><td class="who">Someone with actual P&amp;L access, not a sales-engineering estimate</td></tr>
         <tr><td>SD cycle is longer than Denver</td><td>${f.sd_cycle_days}d vs ${f.denver_cycle_days}d</td><td class="who">A defense-tech AE who has sold DOD-class software</td></tr>
         <tr><td>Regulated/defense multiplier</td><td>${f.regulated_def_multiplier.toFixed(1)}x</td><td class="who">A public-sector AE or someone who's watched SI-burden extend cycle</td></tr>
-        <tr><td>Quota $${(f.quota/1e6).toFixed(1)}M achievable in ramp + 1 quarter</td><td>Yes/No</td><td class="who">A Factory sales manager or RVP</td></tr>
-        <tr><td>Opps per quarter</td><td>${won.toFixed(1)}</td><td class="who">A consistency check from an AE carrying a real territory</td></tr>
+        <tr><td>Quota ${fmtMoney(f.quota)} achievable in ramp + 1 quarter</td><td>Yes/No</td><td class="who">A Factory sales manager or RVP</td></tr>
+        <tr><td>Opps per quarter (operating funnel)</td><td>${won.toFixed(2)}</td><td class="who">A consistency check from an AE carrying a real territory</td></tr>
+        <tr><td>MEDDPICC accounts scored</td><td>${countWithMeddpicc} of ${ACCOUNTS.length} · sum ${scoreSum}/24</td><td class="who">Recompute via $&gt;≥3 element. KNOWN line each — see data/meddpicc.json</td></tr>
       </table>
-      <div style="font-size:12.5px;color:var(--fg-muted);margin-top:10px;font-style:italic;">I would rather be corrected on these in week one than defend them in month six.</div>
+      <div style="font-size:12.5px;color:var(--callout-text);margin-top:10px;font-style:italic;">I would rather be corrected on these in week one than defend them in month six.</div>
     </div>
   `;
 }
