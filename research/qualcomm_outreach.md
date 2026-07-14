@@ -1,40 +1,60 @@
 # Qualcomm outreach — account_id A001
 
-5 buying-committee slots, each with a slot-tailored first email (≤3 sentences, no greeting, lowercase max-6-word subject) and a first LinkedIn (≤300 chars, different from the email, no analogue name-drop, no meeting ask, one observation + one curious question).
+5 buying-committee slots, each with a slot-tailored first email (subject ≤6 words lowercase, body = Hi <First Name> + signal sentence + analogue sentence + single-question sentence + "Nash" + signature) and a first LinkedIn (≤300 chars, observation + question, no analogue name-drop, no meeting ask).
 
-The Fortune July 2026 CIO URL cited in the seed is **NOT VERIFIED**. Outreach to the `economic_buyer` slot should delay until a human is identified via LinkedIn people-search + Fortune URL location. The other four slots are reachable on the LinkedIn agentic-AI benchmark-eval-engineer posting and the Apr 2026 San Diego layoffs.
+The Fortune July 2026 CIO URL cited in the seed is **NOT VERIFIED**. Outreach to the `economic_buyer` slot should delay until a human is identified via LinkedIn people-search + Fortune URL location. The other four slots are reachable on the LinkedIn agentic-AI benchmark-eval-engineer posting and the Apr 2026 San Diego layoffs (verified URL: `https://www.sandiegouniontribune.com/2026/04/09/qualcomm-lays-off-dozens-of-senior-positions-in-san-diego/`).
+
+All 5 slot names are SLOT ONLY — substitute a real first name into the greeting before sending.
 
 ## Slot: economic_buyer
 
 **Title:** Chief Information Officer (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY` — name not surfaced; do not send a personalized greeting.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: qualsat layoff vs ai eval hires
+Subject: qualcomm agentic eval hiring
 
-We saw Qualcomm post an Agentic AI Benchmarking and Evaluation Engineer role alongside San Diego layoffs in Apr 2026 (`https://www.sandiegouniontribune.com/2026/04/09/qualcomm-lays-off-dozens-of-s…`). Is the eval role scoped at easing what human engineers do next, or at qualifying a third-party agent for production? Two questions turn on that distinction.
+Hi <First Name>,
+
+Qualcomm posted an Agentic AI Benchmarking and Evaluation Engineer role (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-engineer`), alongside the Apr 2026 San Diego layoffs (`https://www.sandiegouniontribune.com/2026/04/09/qualcomm-lays-off-dozens-of-senior-positions-in-san-diego/`).
+
+Nvidia is the closest Factory analogue — same chip-and-firmware shape with a benchmarking-led agent rollout.
+
+Is the eval role scoped at producing one internal agent, or vetting third-party agents for production?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-i saw the Apr 2026 SD layoff note and the agentic-ai benchmark job posting the same week. how often does the eval role replace vs. qualify a third-party agent — and who decides that tradeoff? curious, not selling — https://www.linkedin.com/in/benwgordon has the same shape elsewhere.
-
-≤300 chars (target); see char counter.
+i saw the agentic-ai benchmark-eval posting and the Apr 2026 SD layoff note the same week. is the eval role producing an internal benchmark or vetting third-party agents — and which buyer does that land in?
 
 ## Slot: technical_champion
 
 **Title:** Vice President, Platform Engineering (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
 Subject: agentic eval under platform vp
 
-Qualcomm's public agentic-AI benchmarking posting (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-eng…`) implies a platform-eval program is being stood up. Is the program scoped at one engineer or at a team, and is it tied to a real buy-vs-build decision the VPE chairs?
+Hi <First Name>,
+
+Qualcomm's public agentic-AI benchmarking posting (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-engineer`) implies a platform-eval program is being stood up.
+
+Nvidia — chip, firmware, embedded codebase at engineering scale — is the close Factory analogue.
+
+Is the platform-eval program scoped to one engineer, or to a team with a real buy-vs-build decision you chair?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-the Qualcomm agentic-ai eval posting names a chain of work that platform VPEs usually own. is the role the first hire of a team, or a single-seat fix?
+the agentic-ai eval job posting reads like the first hire of an internal platform team. is the team's first buy-vs-build decision on a third-party agent vs. an internal build — and does that decision land in your perimeter?
 
 ## Slot: program_owner
 
@@ -43,40 +63,70 @@ the Qualcomm agentic-ai eval posting names a chain of work that platform VPEs us
 
 ### Email
 
-Subject: what benchmark does the eval person own
+Subject: benchmark outside or inside
 
-The LinkedIn agentic-AI benchmarking-engineer posting (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-eng…`) reads more like a defensive hiring signal than a procurement plan. Of the agents you benchmark, who actually buys the ones that pass — you, your manager, or a separate procurement office?
+Hi <First Name>,
+
+The LinkedIn agentic-AI benchmarking-engineer posting (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-engineer`) reads more like a defensive hiring signal than a procurement plan.
+
+Nvidia is the analogue — Nvidia's agent-eval practice lives inside the platform team rather than as a gate downstream.
+
+Of the agents your team benchmarks, who actually buys the ones that pass — you, your manager, or a separate procurement office?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-i saw the agentic-ai eval-eng posting. defensive hire looks like the read. is there a separate person inside qualcomm who turns the eval result into a buy-order, or do you?
+the agentic-ai eval-eng posting looks like a defensive hire, not a procurement plan. is there a separate buyer inside Qualcomm who turns your benchmark result into a buy-order, or does the eval result trail off?
 
 ## Slot: security_governance
 
 **Title:** Head of Application Security (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: firmware-domain agent gating
+Subject: firmware appsec gate
 
-Air-gapped / firmware-domain work means any agent proposal lands at the Application Security gate first. Is the agentic-eval role itself security-cleared before posting benchmark results, or is the security gate separate and downstream?
+Hi <First Name>,
+
+Firmware-domain work means any third-party agent lands at your application-security gate before reaching production.
+
+Palo Alto Networks is the closest Factory analogue — same airgapped/regulated-infra shape with an explicit agent-evaluation perimeter.
+
+Is the agentic-eval role itself security-cleared, or does the benchmark output require a separate downstream review?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-firmware domain means any third-party agent lands at appsec before production. is the agentic-eval team inside or outside the appsec gate?
+firmware-domain means appsec gates every third-party agent before production. is the agentic-eval team inside or outside that gate — does their benchmark result carry your sign-off implicitly, or is there a separate review?
 
 ## Slot: wildcard
 
 **Title:** Engineering blog author / keystone individual (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: token spend in engineering blogs
+Subject: candid eng blog on tools
 
-The seed cites a CIO quote on agentic workflows and token spend — until that article surfaces, the engineering blog authors are the highest-credibility signal. Which internal blog / series at Qualcomm is the most candid on engineering capacity and tools spend this quarter?
+Hi <First Name>,
+
+In the absence of a public CIO statement on agentic workflows, engineering-blog authors at Qualcomm are the candid-spend signal worth reading.
+
+Nvidia engineering-blog posts on agent rollout are the relevant Factory analogue — same chip-firmware shape, same candor on capacity and tools spend.
+
+Which internal blog or series at Qualcomm is the most candid on engineering capacity and tools spend this quarter?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-the seed quote cites a qualcomm CIO on agentic workflows and token spend. until i find that article, the engineering-blog authors are the candid signal. who would you point me at?
+in absence of the public CIO quote on agentic workflows and token spend (cited in our seed), the candid spend signal at qualcomm is engineering-blog authors. which blog or series would you trust most on tool spend this quarter?

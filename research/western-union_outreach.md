@@ -5,45 +5,73 @@
 ## Slot: economic_buyer
 
 **Title:** Chief Information Officer (PERSON UNVERIFIED — verify in NYSE:WU 10-K first)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: wu 10-k cio for hcltech program
+Subject: wu 10-k cio for hcltech
 
-The HCLTech 2026-05-14 press release (`https://www.hcltech.com/press-releases/western-union-forms-strategic-partners…`) names a WU counterpart in the announcement. Is the WU 10-K CIO role the executive sponsor on the SI partnership, or is the program sponsored by a separate transformation lead?
+Hi <First Name>,
+
+HCLTech's 2026-05-14 press release (`https://www.hcltech.com/press-releases/western-union-forms-strategic-partners…`) names a WU counterpart in the announcement.
+
+Morgan Stanley is the closest Factory analogue — same payments/mainframe/SI shape with HCLTech as the modernization arm of choice.
+
+Is the WU 10-K CIO role the executive sponsor on the SI partnership, or is the program sponsored by a separate transformation lead?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-the HCLTech partnership release names a WU counterpart. is the public CIO the executive sponsor, or is there a separate transformation lead?
-
-≤300 chars (target); see char counter.
+the HCLTech partnership release names a WU counterpart. is the public CIO the executive sponsor, or is there a separate transformation lead named in the WU 10-K?
 
 ## Slot: technical_champion
 
 **Title:** VP Payments Engineering (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: payments eng under si contract
+Subject: payments eng under si
 
-The HCLTech partnership frames payments engineering inside an HCLTech-flanked model. Does the Denver VP Payments Engineering preserve the rules layer (writes the rules HCLTech lifts) or does HCLTech take both ends?
+Hi <First Name>,
+
+The HCLTech partnership frames payments engineering inside an HCLTech-flanked model.
+
+Morgan Stanley is the closest Factory analogue — payments-modernization shape where the SI carries part of the engineering perimeter.
+
+Does the Denver VP Payments Engineering preserve the rules layer (writes the rules HCLTech lifts) or does HCLTech take both ends?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-payments eng under an SI contract usually keeps a thin rules layer. does the Denver VPP still write the rules HCLTech lifts, or is that Layer auto-moved?
+payments eng under an SI contract usually keeps a thin rules layer. does the Denver VPP still write the rules HCLTech lifts, or is that layer auto-moved?
 
 ## Slot: program_owner
 
 **Title:** Head of Mainframe / Legacy Modernization (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
 Subject: as400 buy vs hcltech build
 
-HCLTech's own AS/400 service line (`https://www.hcltech.com/mainframe-as400`) is the SI doing the modernization. Does Western Union's internal program owner still have a tools-buy budget alongside the SI contract, or has that decision already ceded inside the SI scope?
+Hi <First Name>,
+
+HCLTech's own AS/400 service line (`https://www.hcltech.com/mainframe-as400`) is the SI doing the modernization.
+
+Morgan Stanley is the closest Factory analogue — mainframes-modernization with HCLTech as the SI partner.
+
+Does Western Union's internal program owner still have a tools-buy budget alongside the SI contract, or has that decision already ceded inside the SI scope?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
@@ -52,13 +80,23 @@ HCLTech AS/400 modernization is the SI line — is there a separate internal pro
 ## Slot: security_governance
 
 **Title:** Chief Information Security Officer (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
 Subject: si-eligible tools under ciso
 
-Regulated payments + new SI partnership = CISO will gate-d any agent tooling that lands inside the contract. Is the CISO reviewing HCLTech's tools, or would non-SI third-party tooling now need a separate review board?
+Hi <First Name>,
+
+Regulated payments + new SI partnership means CISO will gate any agent tooling that lands inside the contract.
+
+Morgan Stanley is the closest Factory analogue — regulated financial-services with security-as-veto posture on SI-scope procurement.
+
+Is the CISO reviewing HCLTech's tools, or would non-SI third-party tooling now need a separate review board?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
@@ -67,14 +105,24 @@ regulated payments + new SI. does the CISO review tooling inside the SI scope, o
 ## Slot: wildcard
 
 **Title:** Denver engineering manager / recent req hiring (PERSON UNVERIFIED)
-**Confidence:** `SLOT ONLY`.
+**Confidence:** `SLOT ONLY`
 
 ### Email
 
-Subject: which 35 denver reqs attach to hcltech
+Subject: which 35 denver reqs hcltech
 
-Western Union lists 35 open Denver positions. Are any of those reqs attached to the HCLTech program, or are they all on independent product lines?
+Hi <First Name>,
+
+Western Union lists 35 open Denver positions (`https://www.linkedin.com/jobs/western-union-jobs-denver-co`) — the candid spend signal worth reading.
+
+Morgan Stanley talent-movement posts are the relevant Factory analogue — same payments-modernization shape, same candor on Denver hiring tied to SI modernization.
+
+Are any of those 35 reqs attached to the HCLTech program, or are they all on independent product lines?
+
+Nash
+
+Nash Wardy · Factory AI
 
 ### LinkedIn
 
-the 35 denver reqs — are any of them attached to the HCLTech program, or are they all on independent product lines?
+the 35 denver reqs at Western Union — are any of them attached to the HCLTech program, or are they all on independent product lines?

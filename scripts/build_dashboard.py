@@ -354,8 +354,24 @@ textarea,input[type=text],input[type=date],input[type=number],input[type=range]{
 @media (prefers-color-scheme:dark){.complication-block{background:var(--callout-bg);color:var(--callout-text)}.acct-row.active{background:rgba(240,180,40,0.18);color:var(--callout-heading)}}
 .complication-block strong{color:var(--callout-heading)}
 .checklist label{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:12.5px}
-.outreach-tabs{display:flex;gap:4px;margin-bottom:8px}.outreach-tab{padding:4px 10px;border:1px solid var(--border-strong);border-radius:12px;cursor:pointer;font-size:12px;color:var(--fg-muted);background:var(--bg)}.outreach-tab[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
-.outreach-slot{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}.outreach-slot h4{font-size:12.5px;margin:0 0 4px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase}.outreach-slot .subj{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--bg-soft);padding:2px 6px;border-radius:3px;margin-bottom:6px;display:inline-block;color:var(--fg-muted)}.outreach-slot .body{font-size:12.5px;white-space:pre-wrap;color:var(--fg)}.outreach-slot .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11px;color:var(--fg-muted)}.outreach-slot .copy-inline{font-size:11.5px;color:#fff;background:var(--accent);border:1px solid var(--accent);padding:2px 8px;border-radius:3px;cursor:pointer}
+.outreach-tabs{display:flex;flex-direction:row;gap:6px;margin:0 0 10px 0;flex-wrap:wrap;align-items:center}
+.outreach-tab{padding:6px 14px;border:1px solid var(--border-strong);border-radius:4px;cursor:pointer;font-size:13px;color:var(--fg-muted);background:var(--bg);white-space:nowrap;writing-mode:horizontal-tb;font-weight:600}
+.outreach-tab:hover{border-color:var(--accent);color:var(--accent)}
+.outreach-tab[aria-selected="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.outreach-panel{margin-top:8px;display:block}
+.outreach-panel[hidden]{display:none!important}
+.outreach-slot{border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:8px;background:var(--bg)}
+.outreach-slot h4{font-size:12.5px;margin:0 0 6px;color:var(--accent);letter-spacing:.04em;text-transform:uppercase;font-weight:600}
+.outreach-slot .subj-row{display:flex;align-items:baseline;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.outreach-slot .subj-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--fg-faint);font-weight:600}
+.outreach-slot .subj{font-family:ui-monospace,monospace;font-size:12.5px;background:var(--bg-soft);padding:3px 8px;border-radius:3px;color:var(--fg);font-weight:600;border:1px solid var(--border)}
+.outreach-slot textarea{width:100%;min-height:160px;font-size:12.5px;line-height:1.55;margin:0 0 6px 0;background:var(--bg);color:var(--fg);font-family:inherit}
+.outreach-slot .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;font-size:11.5px;color:var(--fg-muted)}
+.outreach-slot .char-count{font-family:ui-monospace,monospace;font-weight:600}
+.outreach-slot .char-count.warn{color:var(--callout-heading);font-weight:700}
+.outreach-slot .char-count.bad{color:var(--callout-heading-red);font-weight:700}
+.outreach-slot .copy-inline{font-size:11.5px;color:#fff;background:var(--accent);border:1px solid var(--accent);padding:4px 12px;border-radius:3px;cursor:pointer;font-weight:600}
+.outreach-slot .copy-inline:hover{filter:brightness(1.1)}
 .plan-grid{display:grid;grid-template-columns:88px 1fr;gap:6px 14px;font-size:12.5px;align-items:baseline}.plan-grid dt{font-weight:600;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.04em}.plan-grid dd{margin:0;color:var(--fg)}.plan-disqualify{background:var(--callout-bg-red);border:1px solid var(--callout-border-red);border-radius:3px;padding:8px 10px;margin-top:10px;font-size:12.5px;color:var(--callout-text-red)}.plan-disqualify strong{color:var(--callout-heading-red)}
 .meddpicc-bar{display:grid;grid-template-columns:130px 1fr 36px;gap:8px;align-items:center;padding:3px 0;font-size:12.5px}.meddpicc-bar .track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}.meddpicc-bar .fill{height:100%;background:var(--accent);border-radius:4px}.meddpicc-bar .score{font-family:ui-monospace,monospace;font-weight:700;text-align:right}.meddpicc-total{margin-top:8px;padding:8px 12px;background:var(--callout-bg);border-radius:4px;display:flex;justify-content:space-between;font-weight:600;font-size:13.5px;color:var(--callout-text)}.meddpicc-total .band-label{font-size:11px;padding:2px 8px;border-radius:8px;background:var(--accent);color:#fff;text-transform:uppercase;letter-spacing:.04em}.meddpicc-biggest{margin-top:8px;font-size:12px;color:var(--callout-text);background:var(--callout-bg);border-left:3px solid var(--callout-border);padding:6px 10px}
 .forecast-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -645,20 +661,40 @@ function renderDetail(){
       tabs.forEach(x=>x.setAttribute("aria-selected","false"));
       t.setAttribute("aria-selected","true");
       outreachRoot.querySelectorAll(".outreach-panel").forEach(p=>p.hidden=p.dataset.panel!==t.dataset.tab);
-      updateOutlookCharCounts(outreachRoot);
     }));
-    outreachRoot.querySelectorAll(".outreach-slot textarea").forEach(ta=>ta.addEventListener("input",()=>{
-      ta.classList.toggle("bad",parseInt(ta.dataset.charLimit||"0",10)>0&&ta.value.length>parseInt(ta.dataset.charLimit,10));
-      ta.classList.toggle("warn",parseInt(ta.dataset.charLimit||"0",10)>0&&ta.value.length>=parseInt(ta.dataset.charLimit,10)-30&&ta.value.length<=parseInt(ta.dataset.charLimit,10));
-      const cc=ta.parentElement.querySelector(".char-count");if(cc){cc.textContent=`${ta.value.length} / ${ta.dataset.charLimit||"∞"} chars`;cc.classList.remove("warn","bad");if(parseInt(ta.dataset.charLimit||"0",10)>0&&ta.value.length>parseInt(ta.dataset.charLimit,10))cc.classList.add("bad");else if(parseInt(ta.dataset.charLimit||"0",10)>0&&ta.value.length>parseInt(ta.dataset.charLimit,10)-30)cc.classList.add("warn");}
-      const key=`${a.account_id}|${ta.dataset.slot}|${ta.dataset.kind}`;
-      STATE.outreachEdits=STATE.outreachEdits||{};STATE.outreachEdits[key]=ta.value;saveState();
+    outreachRoot.querySelectorAll(".outreach-slot textarea").forEach(ta=>{
+      updateOneCharCount(ta);
+      ta.addEventListener("input",()=>{
+        updateOneCharCount(ta);
+        const key = `${a.account_id}|${ta.dataset.slot}|${ta.dataset.kind}`;
+        STATE.outreachEdits = STATE.outreachEdits || {};
+        STATE.outreachEdits[key] = ta.value;
+        saveState();
+      });
+    });
+    outreachRoot.querySelectorAll(".copy-inline").forEach(b=>b.addEventListener("click", async()=>{
+      const slotEl = b.closest(".outreach-slot");
+      if(!slotEl) return;
+      const ta = slotEl.querySelector("textarea");
+      if(!ta) return;
+      let payload;
+      if(b.dataset.kind === "email"){
+        const subjEl = slotEl.querySelector(".subj");
+        const subj = subjEl ? subjEl.textContent.trim() : "";
+        const body = ta.value.trim();
+        payload = (subj && !/^\(empty/.test(subj))
+          ? `Subject: ${subj}\n\n${body}`
+          : body;
+      } else {
+        payload = ta.value.trim();
+      }
+      try{
+        await navigator.clipboard.writeText(payload);
+        toast("Copied.");
+      }catch(_){
+        toast("Copy failed.");
+      }
     }));
-    outreachRoot.querySelectorAll(".copy-inline").forEach(b=>b.addEventListener("click",async()=>{
-      const ta=b.parentElement.parentElement.querySelector("textarea");if(!ta)return;
-      try{await navigator.clipboard.writeText(ta.value);toast("Copied.");}catch(_){toast("Copy failed.");}
-    }));
-    updateOutlookCharCounts(outreachRoot);
   }
 }
 
@@ -751,25 +787,102 @@ function updateOutlookCharCounts(root){
   });
 }
 function parseOutreach(raw){
-  if(!raw)return[];
-  const slots=[];
-  const slotNames=Object.values(SLOT_LABEL);
-  let cur=null;
-  const slotHeads=raw.match(/^##\\s+Slot:\\s+.+$/gm)||[];
-  // Fall back to simple parsing by header style
-  const lines=raw.split("\\n");
-  let curSlot=null,curEmailSub=null,curEmailBody=null,curLinkedin=null;
+  if(!raw) return [];
+  const lines = raw.split("\n");
+  const slots = [];
+  let curSlot = null;
+  let curBlock = null; // 'intro' | 'email' | 'linkedin'
+  let curEmailSub = null;
+  let curEmailBodyLines = [];
+  let curLinkedinLines = [];
+  const finalize = () => {
+    if(!curSlot) return;
+    slots.push({
+      slot: curSlot,
+      email_subject: (curEmailSub || "").trim(),
+      email_body: curEmailBodyLines.join("\n").trim(),
+      linkedin_body: curLinkedinLines.join("\n").trim(),
+    });
+  };
   for(const line of lines){
-    const m=line.match(/^##\\s+Slot:\\s+(\\w+)/);
-    if(m){if(curSlot)slots.push({slot:curSlot,email_subject:curEmailSub,email_body:curEmailBody||"",linkedin_body:curLinkedin||""});curSlot=m[1];curEmailSub=null;curEmailBody=null;curLinkedin=null;continue;}
-    if(!curSlot)continue;
-    if(/^###\\s+Email$/.test(line))continue;
-    if(/^###\\s+LinkedIn$/.test(line))continue;
-    if(/^Subject:/.test(line)){curEmailSub=line.replace(/^Subject:\\s*/,"");continue;}
-    if(curSlot&&!curEmailSub&&line.trim()&&!(/^\\s*$/.test(line)))continue;
+    const slotM = line.match(/^##\s+Slot:\s*(\w[\w_]*)/);
+    if(slotM){
+      finalize();
+      curSlot = slotM[1];
+      curBlock = "intro";
+      curEmailSub = null;
+      curEmailBodyLines = [];
+      curLinkedinLines = [];
+      continue;
+    }
+    if(!curSlot) continue;
+    if(/^###\s+Email\b/.test(line)){ curBlock = "email"; continue; }
+    if(/^###\s+LinkedIn\b/.test(line)){ curBlock = "linkedin"; continue; }
+    if(curBlock === "email"){
+      const subjM = line.match(/^Subject:\s*(.+?)\s*$/);
+      if(subjM){ curEmailSub = subjM[1]; continue; }
+      if(curEmailSub != null){ curEmailBodyLines.push(line); }
+      continue;
+    }
+    if(curBlock === "linkedin"){
+      curLinkedinLines.push(line);
+      continue;
+    }
   }
-  if(curSlot)slots.push({slot:curSlot,email_subject:curEmailSub,email_body:curEmailBody||"",linkedin_body:curLinkedin||""});
+  finalize();
   return slots;
+}
+
+function chatCountText(n, limit){
+  if(limit > 0){
+    if(typeof n !== "number" || isNaN(n)) return "— / " + limit;
+    return n + " / " + limit;
+  }
+  if(typeof n !== "number" || isNaN(n)) return "— chars";
+  return n + " chars";
+}
+
+function outreachSlotHtml(a, s, kind){
+  const slot = SLOT_LABEL[s.slot] || s.slot;
+  const stored = (STATE.outreachEdits || {})[`${a.account_id}|${s.slot}|${kind}`];
+  let value, charLimit, btnLabel, placeholder;
+  if(kind === "email"){
+    value = stored != null ? stored : (s.email_body || "");
+    charLimit = 0;
+    btnLabel = "Copy email + subj";
+    placeholder = "Hi <First Name>,\n\n<signal sentence — verified URL>\n\n<analogue sentence — Factory customer link>\n\n<one-line question>\n\nNash\n\nNash Wardy · Factory AI";
+  } else {
+    value = stored != null ? stored : (s.linkedin_body || "");
+    charLimit = 300;
+    btnLabel = "Copy LinkedIn note";
+    placeholder = "≤ 300 chars — observation + question, no meeting ask, no analogue name-drop.";
+  }
+  const over = charLimit > 0 && value.length > charLimit;
+  const near = charLimit > 0 && value.length >= charLimit - 30 && value.length <= charLimit;
+  const cls = over ? "bad" : (near ? "warn" : "");
+  const subjBox = kind === "email"
+    ? `<div class="subj-row"><span class="subj-label">Subject</span><span class="subj">${escapeHtml(s.email_subject || "(empty — fix in research/<company>_outreach.md)")}</span></div>`
+    : `<div class="subj-row"><span class="subj-label">Channel</span><span class="subj">LinkedIn connection note · ≤ 300 chars</span></div>`;
+  return `<div class="outreach-slot">
+    <h4>${slot}</h4>
+    ${subjBox}
+    <textarea data-slot="${s.slot}" data-kind="${kind}" data-char-limit="${charLimit}" placeholder="${escapeHtml(placeholder)}">${escapeHtml(value)}</textarea>
+    <div class="char-row">
+      <span class="char-count ${cls}">${chatCountText(value.length, charLimit)}</span>
+      <button class="copy-inline" data-kind="${kind}" data-slot="${s.slot}">${btnLabel}</button>
+    </div>
+  </div>`;
+}
+
+function updateOneCharCount(ta){
+  const cc = ta.parentElement.querySelector(".char-count");
+  if(!cc) return;
+  cc.classList.remove("warn","bad");
+  const limit = parseInt(ta.dataset.charLimit, 10);
+  const n = ta.value.length;
+  cc.textContent = chatCountText(n, limit);
+  if(limit > 0 && n > limit){ cc.classList.add("bad"); }
+  else if(limit > 0 && n > limit - 30){ cc.classList.add("warn"); }
 }
 
 // -- FORECAST --
