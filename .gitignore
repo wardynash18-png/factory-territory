@@ -1,0 +1,13 @@
+# Local artifacts
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Generated
+dashboard/*.tmp
+research/*.draft.md
+
+# Secrets — never commit
+.env
+*.key
