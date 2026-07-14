@@ -1,50 +1,63 @@
-# Factory Territory — Operating Manual
+# AGENTS.md
 
-This repo is the single source of truth for our go-to-market territory. Every agent, human, or automation that touches this work reads AGENTS.md first.
+## What this project is
 
-## Mission
+A territory research and prospecting pipeline for an enterprise sales rep covering
+San Diego and Denver. It screens companies against an ICP, enriches them from public
+sources, and produces two artifacts: a prospecting packet per account, and a single-file
+HTML dashboard for territory review.
 
-Identify, enrich, qualify, and engage 20 best-fit accounts per quarter against our Ideal Customer Profile (ICP), then hand them off to AE-led outbound with research-backed context.
+The product being sold is **Factory AI** — autonomous coding agents (Droids) for
+enterprise engineering organizations.
 
-## Repo layout
+## The ICP — screen on these, not on firmographics
 
-```
-factory-territory/
-├── AGENTS.md              # this file — operating manual
-├── data/                  # structured account & contact data (CSV, JSON)
-│   └── accounts_seed.csv  # initial 20 accounts seeded into the territory
-├── prompts/               # reusable prompt library (research, outreach, qualification)
-│   └── PROMPTS.md
-├── research/              # per-account research notes (one file per account)
-└── dashboard/             # generated artifacts (CSV summaries, JSON exports)
-```
+Revenue and headcount do NOT predict a deal. The signals that do:
 
-## ICP (current snapshot)
+1. **Developer density** — engineering headcount, not total headcount.
+2. **Legacy surface area** — 20-30 year old systems, embedded/firmware, mainframe-era
+   cores, acquisition-inherited stacks, active modernization programs.
+3. **Constraint** — regulated, classified, or safety-critical. Governance, on-prem, and
+   air-gapped requirements are where an enterprise agent platform beats an IDE plug-in.
+4. **Observable pain** — job reqs for platform/DevEx/modernization roles, announced
+   migrations, visible open-source footprint.
 
-- **Segment:** B2B SaaS, Series A–C, 50–500 employees
-- **Vertical focus:** developer tools, data infrastructure, AI/ML platforms, fintech infra
-- **Buyer personas:** CTO, VP Engineering, Head of Platform, Head of Data
-- **Trigger signals:** recent funding round, hiring surge for platform/data roles, migration away from legacy infra, public AI initiative
-- **Disqualifiers:** <20 employees, pre-product, consumer-only, government-only, agency/reseller model
+**The highest-intent signal is a company hiring a human to do the job Factory does.**
+Job postings are the primary research surface. Read them first.
 
-## Operating rules
+## Known Factory customers (use as analogues in outreach)
 
-1. **Single source of truth.** All account data lives in `data/`. Never edit CSVs by hand in chat — use scripts or PR-reviewed edits.
-2. **Research is append-only.** `research/<account_slug>.md` only ever gains content; remove nothing, correct by strikethrough.
-3. **Prompts are versioned.** Any change to `prompts/PROMPTS.md` gets a dated entry at the bottom.
-4. **No fabricated facts.** If we don't know it, mark it `UNKNOWN`. Never invent headcount, funding, or tooling.
-5. **PII handling.** Store only public business contact info. Mask emails in shared artifacts (`jane@acme.com` → `j***@acme.com`) unless explicitly approved.
-6. **Every account gets a verdict.** End of research: `PURSUE | NURTURE | DEFER | DISQUALIFY` with a one-line rationale.
+Nvidia (semiconductors, firmware), Morgan Stanley (regulated finserv, legacy core),
+Adobe, EY, MongoDB (software co. with its own legacy), Bayer (regulated life sciences),
+Palo Alto Networks.
 
-## Daily rhythm
+Map each prospect to the closest analogue. Say why the match holds in one line.
 
-- **Morning:** score new accounts against ICP, queue 3 for deep research
-- **Midday:** run deep research on queued accounts using `prompts/PROMPTS.md`
-- **EOD:** commit research, update `data/accounts_seed.csv` status, draft next-day queue
+## Geographic filter
 
-## Glossary
+Headquarters in San Diego County or Denver metro (incl. Englewood, Greenwood Village,
+Centennial, Westminster, Broomfield). A large campus without HQ means selling into
+someone else's budget — flag those separately rather than including them silently.
 
-- **Account:** a target company in `data/accounts_seed.csv`
-- **Contact:** a person at an account, linked by `company_slug`
-- **Touchpoint:** any logged outreach, in `research/<account_slug>.md`
-- **Verdict:** final disposition per account (see rule 6)
+## RULES — these are not negotiable
+
+1. **Never invent a signal.** Every claim about a company must have a source URL, or be
+   explicitly labeled `INFERRED`. If you cannot find a real signal, write
+   `NO SIGNAL FOUND` and move on. A fabricated detail in a cold email is instantly
+   detectable by an engineering leader and burns the account permanently.
+   Eight accounts with real signals beat twenty with guesses.
+2. **Label every claim** `VERIFIED (url)` or `INFERRED`.
+3. **Firmographics are estimates.** Always caveat them. They are for ranking, not quoting.
+4. **Flag staleness.** Job postings and exec names rot. Note the date of every signal.
+5. **Surface complications, don't hide them.** If a company already has an SI partner,
+   an offshore capability center, or a competing internal program, say so. Those are the
+   objections the rep will face; they are more valuable than another bullet point.
+6. **No corporate voice.** Emails are three sentences. No greeting fluff, no value props,
+   no adjectives, no "hope this finds you well."
+
+## Output conventions
+
+- Research output → `research/<company>.md`
+- Summary table → `data/accounts_enriched.csv`
+- Dashboard → `dashboard/index.html` (single file, vanilla JS, no build step, no npm)
+- Markdown, not prose walls. Tables where the data is tabular.
