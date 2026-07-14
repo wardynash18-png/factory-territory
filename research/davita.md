@@ -4,7 +4,7 @@
 
 **Strong, public, dated.** DaVita is hiring a **Sr Director, Transformation** based at 2000 16th Street, Denver, CO 80202. The req is published on DaVita's own career site (`https://careers.davita.com/job/R0466819/Sr-Director-of-Transformation`, dated 2026-07-06), and mirrors on Built In Colorado (`https://www.builtincolorado.com/job/sr-director-transformation/7368556`, 2025-12-23), The Ladders (`https://www.theladders.com/job/sr-director-of-transformation-davita-reno-nv_8…`, 2026-07-02), and Teal HQ (`https://www.tealhq.com/job/sr-director-of-transformation_7ea1ad48950af2141890…`, 2026-07-02). The req is funded, sponsored, and scoped in public — exactly the highest-intent shape per AGENTS.md rule 1.
 
-The req covers multi-year migration of legacy revenue-cycle apps to GCP. DaVita HQ is Denver (`https://en.wikipedia.org/wiki/DaVita`, Wikipedia confirmed). The CIO is **Madhu Narasimhan**, appointed 2024-05-13 per DaVita's investor press release (`https://investors.davita.com/2024-05-13-davita-appoints-new-chief-information…`). Madhu's LinkedIn profile is `https://www.linkedin.com/in/mnaras/` (appeared in current search results — permitted under rule 2).
+The req covers multi-year migration of legacy revenue-cycle apps to GCP. DaVita HQ is Denver. The CIO is **Madhu Narasimhan**, appointed 2024-05-13 per DaVita's investor press release (`https://investors.davita.com/2024-05-13-davita-appoints-new-chief-information…`). Madhu's LinkedIn profile is `https://www.linkedin.com/in/mnaras/` (appeared in current search results — permitted under rule 2).
 
 ## 2. ANALOGUE
 

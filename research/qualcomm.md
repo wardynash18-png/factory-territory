@@ -3,7 +3,7 @@
 ## 1. SIGNAL
 
 **Specific verifiable observation.** LinkedIn jobs surfaces a Qualcomm role titled
-"Agentic AI Benchmarking and Evaluation Engineer" (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-eng…`; date not returned in search snippet — flag stale). HQ is San Diego (`https://en.wikipedia.org/wiki/Qualcomm`, Wikipedia, snapshot 2026-06-30). Engineering org is ~52,000 employees per Macrotrends 2026-06-30 (`https://www.macrotrends.net/stocks/charts/QCOM/qualcomm/number-of-employees`).
+"Agentic AI Benchmarking and Evaluation Engineer" (`https://www.linkedin.com/jobs/view/agentic-ai-benchmarking-and-evaluation-eng…`; date not returned in search snippet — flag stale). HQ is San Diego. Engineering org is ~52,000 employees per Macrotrends 2026-06-30 (`https://www.macrotrends.net/stocks/charts/QCOM/qualcomm/number-of-employees`).
 
 **Cost-discipline signal — qualify, do not lead with.** San Diego Union-Tribune reported Apr 2026 that Qualcomm laid off dozens of San Diego staff (`https://www.sandiegouniontribune.com/2026/04/09/qualcomm-lays-off-dozens-of-s…`). Engineering org is cost-engineering first; pricing/ROI story beats headcount-add story.
 

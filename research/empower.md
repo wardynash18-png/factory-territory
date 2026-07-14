@@ -11,7 +11,7 @@ Previously announced acquisitions (the seed lists Great-West, JPM, Putnam, MassM
 
 - **MassMutual retirement plan** acquisition closed (`https://www.empower.com/press-center/empower-retirement-closes-acquisition-ma…`).
 
-Empower HQ is 8515 E Orchard Rd, Greenwood Village, CO 80111 (`https://en.wikipedia.org/wiki/Empower_(financial_services)`, 2026-06-24). 35 open Greenwood Village positions (`https://www.linkedin.com/jobs/empower-retirement-jobs-greenwood-village-co`).
+Empower HQ is 8515 E Orchard Rd, Greenwood Village, CO 80111. 35 open Greenwood Village positions (`https://www.linkedin.com/jobs/empower-retirement-jobs-greenwood-village-co`).
 
 ## 2. ANALOGUE
 

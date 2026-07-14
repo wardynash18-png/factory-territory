@@ -4,7 +4,7 @@
 
 **The seed's specific claim does not surface in public search.** This file is honest about that.
 
-ResMed HQ is San Diego, CA (`https://en.wikipedia.org/wiki/ResMed`, Wikipedia 2026-06-26). LinkedIn 253,142 followers (`https://www.linkedin.com/company/resmed`). The seed claim is: "Live reqs seeking engineers to build agentic AI workflows that are traceable/auditable in regulated environments."
+ResMed HQ is San Diego, CA. LinkedIn 253,142 followers (`https://www.linkedin.com/company/resmed`). The seed claim is: "Live reqs seeking engineers to build agentic AI workflows that are traceable/auditable in regulated environments."
 
 I cannot locate such a req in this research pass. ResMed has a generic careers portal (`https://careers.resmed.com/`) and surface job boards:
 
