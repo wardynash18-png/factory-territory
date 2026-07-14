@@ -469,32 +469,9 @@ function outreachHtml(a){
     </div>
   </div>`;
 }
-function outreachSlotHtml(a,s,kind){
-  const slot=SLOT_LABEL[s.slot]||s.slot;
-  const subjOrBody=kind==="email"?s.email_subject:s.linkedin_body;
-  const charLimit=kind==="linkedin"?300:"";
-  const btnLabel=kind==="email"?"Copy email":"Copy LinkedIn";
-  const stored=(STATE.outreachEdits||{})[`${a.account_id}|${s.slot}|${kind}`];
-  const value=stored!=null?stored:(subjOrBody||"");
-  const cls=value.length>parseInt(charLimit||"0",10)?"bad":value.length>parseInt(charLimit||"0",10)-30?"warn":"";
-  return `<div class="outreach-slot">
-    <h4>${slot}</h4>
-    ${kind==="email"?`<span class="subj">${escapeHtml(s.email_subject||"")}</span>`:""}
-    <textarea data-slot="${s.slot}" data-kind="${kind}" data-char-limit="${charLimit}" placeholder="${charLimit?`≤${charLimit} chars`:""}">${escapeHtml(value)}</textarea>
-    <div class="char-row"><span class="char-count ${cls}">${value.length} / ${charLimit||"∞"} chars</span><button class="copy-inline">${btnLabel}</button></div>
-  </div>`;
-}
-function updateOutlookCharCounts(root){
-  root.querySelectorAll(".outreach-slot textarea[data-char-limit]").forEach(ta=>{
-    const limit=parseInt(ta.dataset.charLimit,10);
-    const cc=ta.parentElement.querySelector(".char-count");
-    if(cc){cc.textContent=`${ta.value.length} / ${limit} chars`;cc.classList.remove("warn","bad");if(ta.value.length>limit)cc.classList.add("bad");else if(ta.value.length>limit-30)cc.classList.add("warn");}
-  });
-}
 function parseOutreach(raw){
   if(!raw) return [];
-  const lines = raw.split("
-");
+  const lines = raw.split("\n");
   const slots = [];
   let curSlot = null;
   let curBlock = null; // 'intro' | 'email' | 'linkedin'
@@ -506,10 +483,8 @@ function parseOutreach(raw){
     slots.push({
       slot: curSlot,
       email_subject: (curEmailSub || "").trim(),
-      email_body: curEmailBodyLines.join("
-").trim(),
-      linkedin_body: curLinkedinLines.join("
-").trim(),
+      email_body: curEmailBodyLines.join("\n").trim(),
+      linkedin_body: curLinkedinLines.join("\n").trim(),
     });
   };
   for(const line of lines){
@@ -524,8 +499,8 @@ function parseOutreach(raw){
       continue;
     }
     if(!curSlot) continue;
-    if(/^###\s+Email/.test(line)){ curBlock = "email"; continue; }
-    if(/^###\s+LinkedIn/.test(line)){ curBlock = "linkedin"; continue; }
+    if(/^###\s+Email\b/.test(line)){ curBlock = "email"; continue; }
+    if(/^###\s+LinkedIn\b/.test(line)){ curBlock = "linkedin"; continue; }
     if(curBlock === "email"){
       const subjM = line.match(/^Subject:\s*(.+?)\s*$/);
       if(subjM){ curEmailSub = subjM[1]; continue; }
@@ -558,17 +533,7 @@ function outreachSlotHtml(a, s, kind){
     value = stored != null ? stored : (s.email_body || "");
     charLimit = 0;
     btnLabel = "Copy email + subj";
-    placeholder = "Hi <First Name>,
-
-<signal sentence — verified URL>
-
-<analogue sentence — Factory customer link>
-
-<one-line question>
-
-Nash
-
-Nash Wardy · Factory AI";
+    placeholder = "Hi <First Name>,\n\n<signal sentence — verified URL>\n\n<analogue sentence — Factory customer link>\n\n<one-line question>\n\nNash\n\nNash Wardy · Factory AI";
   } else {
     value = stored != null ? stored : (s.linkedin_body || "");
     charLimit = 300;
