@@ -1,21 +1,21 @@
-account_id,company,domain,slug,country,segment,employees,funding_stage,vertical,primary_buyer,signal,status,owner,last_touched
-A001,Vector Forge,vectorforge.io,vector-forge,US,B2B SaaS,120,Series A,AI/ML platforms,CTO,"Hiring surge for platform engineers",NEW,territory-bot,
-A002,Pipewell,pipewell.com,pipewell,US,B2B SaaS,210,Series B,Fintech infra,VP Engineering,"Migration off legacy payments infra",NEW,territory-bot,
-A003,Northwind Atlas,northwindatlas.io,northwind-atlas,Canada,B2B SaaS,85,Seed,Data infrastructure,Head of Data,"Public data lake announcement",NEW,territory-bot,
-A004,Loomscale,loomscale.com,loomscale,US,B2B SaaS,340,Series C,Developer tools,VP Engineering,"Open-source repo hit 10k stars",NEW,territory-bot,
-A005,Cashlayer,cashlayer.com,cashlayer,US,B2B SaaS,180,Series A,Fintech infra,Head of Platform,"Series A announced 6 weeks ago",NEW,territory-bot,
-A006,Helio Compute,helio-compute.dev,helio-compute,US,B2B SaaS,75,Seed,AI/ML platforms,CTO,"Posted job for MLOps lead",NEW,territory-bot,
-A007,Strata Ledger,strataledger.com,strata-ledger,UK,B2B SaaS,260,Series B,Fintech infra,VP Engineering,"PCI compliance rebuild job post",NEW,territory-bot,
-A008,Quanta Flow,quanta-flow.io,quanta-flow,US,B2B SaaS,420,Series C,Data infrastructure,Head of Data,"Replacing Snowflake with hybrid mesh",NEW,territory-bot,
-A009,Beacon OSS,beaconoss.dev,beacon-oss,US,B2B SaaS,55,Seed,Developer tools,CTO,"Open-source SDK crossed 1k weekly downloads",NEW,territory-bot,
-A010,Mercury Index,mercuryindex.com,mercury-index,US,B2B SaaS,150,Series A,AI/ML platforms,VP Engineering,"Public launch of vector DB feature",NEW,territory-bot,
-A011,Pier 14 Labs,pier14labs.com,pier-14-labs,US,B2B SaaS,310,Series B,Developer tools,Head of Platform,"Hiring 12 platform engineers in 90 days",NEW,territory-bot,
-A012,Sable Stream,sablestream.io,sable-stream,US,B2B SaaS,95,Seed,Data infrastructure,Head of Data,"Pinned tweet: 'fighting our event bus'",NEW,territory-bot,
-A013,Tinroof,tinroof.dev,tinroof,Canada,B2B SaaS,140,Series A,AI/ML platforms,CTO,"Closed pilot with two F500s",NEW,territory-bot,
-A014,Foldwise,foldwise.com,foldwise,US,B2B SaaS,230,Series B,Fintech infra,VP Engineering,"Migrating monolith to event-driven",NEW,territory-bot,
-A015,Granite Route,graniteroute.io,granite-route,US,B2B SaaS,470,Series C,Developer tools,VP Engineering,"Spun out infra team into platform org",NEW,territory-bot,
-A016,Lumen Atlas,lumenatlas.com,lumen-atlas,US,B2B SaaS,200,Series B,AI/ML platforms,Head of Data,"Eval platform hiring spree",NEW,territory-bot,
-A017,Birchline,birchline.com,birchline,US,B2B SaaS,110,Series A,Fintech infra,CTO,"Acquired competitor, integrating stack",NEW,territory-bot,
-A018,Drift Forge,driftforge.dev,drift-forge,US,B2B SaaS,65,Seed,Developer tools,Head of Platform,"Launched local-dev cloud product",NEW,territory-bot,
-A019,Sablon,sablon.io,sablon,Germany,B2B SaaS,280,Series B,Data infrastructure,VP Engineering,"Replacing Kafka with managed alternative",NEW,territory-bot,
-A020,Northgate Loom,northgatelocom.com,northgate-loom,US,B2B SaaS,160,Series A,AI/ML platforms,Head of Platform,"Published 'we use too much infra' blog",NEW,territory-bot,
+company,hq_city,state,region,sector,priority,initial_thesis
+Qualcomm,San Diego,CA,San Diego,Semiconductors,1,"Massive embedded/firmware codebase across chipsets and modems. Nvidia analogue. CIO publicly discussing agentic workflows and token spend (Fortune, July 2026)."
+DaVita,Denver,CO,Denver,Healthcare,1,"Live req: Sr Director of Transformation leading multi-year migration of legacy revenue-cycle apps to GCP. Funded, sponsored, scoped in public."
+ResMed,San Diego,CA,San Diego,Connected medical devices,1,"Live reqs asking for engineers to build agentic AI workflows that are traceable/auditable in regulated environments. Bayer analogue."
+Western Union,Denver,CO,Denver,Payments,2,"AS/400 mainframe publicly acknowledged. HCLTech AI-led platform partnership (Mar 2025). Qualify whether SI owns the tooling budget."
+LPL Financial,San Diego,CA,San Diego,Wealth management,2,"Has a CIO whose remit is literally platform modernization. ~$470-500M/yr tech spend. Watch-out: Hyderabad GCC is the competing solution."
+Empower,Greenwood Village,CO,Denver,Retirement services,2,"Serial acquirer: Great-West, JPM, Putnam, MassMutual, SunTrust, Fifth Third, Prudential. Legacy thesis is INFERRED from M&A history, not admitted."
+General Atomics,San Diego,CA,San Diego,Defense / UAV,3,"UAV flight software, classified, air-gapped. Governance story is the pitch. Private - expect long cycle, little public data."
+EchoStar / DISH,Englewood,CO,Denver,Satellite & wireless,3,"Satellite legacy plus from-scratch 5G build. Public cost pressure is the budget argument."
+CSG Systems,Englewood,CO,Denver,Telecom billing software,3,"Sells billing/BSS to carriers - codebase is old by necessity and cannot break. MongoDB analogue."
+Viasat,Carlsbad,CA,San Diego,Satellite comms,3,"Ground systems, network stack, inherited Inmarsat codebase post-acquisition. Defense + commercial."
+Illumina,San Diego,CA,San Diego,Genomics,3,"Instrument firmware plus bioinformatics pipelines. FDA-regulated. Bayer analogue."
+Trimble,Westminster,CO,Denver,Geospatial software,3,"Years of acquired products (B2W, Transporeon) = inherited codebases needing consolidation."
+Liberty Global,Englewood,CO,Denver,Telecom / broadband,4,"OSS/BSS across many acquired national operators. Integration sprawl is the company."
+Teradata,San Diego,CA,San Diego,Data platform,4,"Enterprise data platform with a genuinely old core (founded 1979). Software co with its own legacy problem."
+Dexcom,San Diego,CA,San Diego,Medical devices,4,"CGM firmware plus mobile apps. FDA-regulated, fast cadence against safety-critical constraints."
+Arrow Electronics,Centennial,CO,Denver,Electronics distribution,4,"ERP and supply-chain integration sprawl across 80 countries. Unglamorous, large, real."
+Maxar / Vantor,Westminster,CO,Denver,Geospatial / defense,4,"Satellite imagery for defense/intel. Classified, air-gapped, certified."
+Kratos Defense,San Diego,CA,San Diego,Defense technology,4,"Drones, satellite ground systems, C5ISR. Smaller, faster version of the General Atomics motion."
+Sempra / SDG&E,San Diego,CA,San Diego,Utility,5,"SCADA, metering, outage management. Ancient, safety-critical, heavily regulated."
+Zayo Group,Denver,CO,Denver,Fiber infrastructure,5,"PE-owned, network provisioning built through serial acquisition. Cost discipline = ROI story lands."
