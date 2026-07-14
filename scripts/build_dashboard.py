@@ -1,4 +1,109 @@
-<!DOCTYPE html>
+"""Regenerate dashboard/index.html from data/accounts_enriched.csv.
+
+Safe against None / apostrophe / unquoted-comma / newline / quote characters in source rows.
+"""
+import csv
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent  # ~/factory-territory
+CSV_PATH = ROOT / "data" / "accounts_enriched.csv"
+OUT_PATH = ROOT / "dashboard" / "index.html"
+
+
+def safe(v, maxlen=400):
+    """Coerce to str, replace chars that break the JS string literal, optionally truncate."""
+    if v is None:
+        return ""
+    s = str(v).replace('"', "'").replace("\n", " ").replace("\r", " ")
+    s = s.strip()
+    return s[:maxlen]
+
+
+def pick(r, cols):
+    return {
+        "account_id": safe(r[cols["account_id"]]),
+        "company": safe(r[cols["company"]]),
+        "domain": safe(r[cols["domain"]]),
+        "slug": safe(r[cols["slug"]]),
+        "hq_city": safe(r[cols["hq_city"]]),
+        "hq_state": safe(r[cols["hq_state"]]),
+        "hq_country": safe(r[cols["hq_country"]]),
+        "revenue": safe(r[cols["revenue"]]),
+        # (priority + region added in main from seed.csv)
+        "sector": safe(r[cols["sector"]]),
+        "employees_total": safe(r[cols["employees_total"]]),
+        "engineering_headcount": safe(r[cols["engineering_headcount"]]),
+        "cto_name": safe(r[cols["cto_name"]]),
+        "cio_name": safe(r[cols["cio_name"]]),
+        "in_sd_or_denver_metro": safe(r[cols["in_sd_or_denver_metro"]]),
+        "seed_thesis_status": safe(r[cols["seed_thesis_status"]]),
+        "near_match_notes": safe(r[cols["near_match_notes"]], maxlen=400),
+        "last_researched": safe(r[cols["last_researched"]]),
+    }
+
+
+def to_json_literal(picked):
+    """Render a dict as a JS object literal string with quoted keys/values."""
+    keys_in_order = [
+        ("account_id", "id"),
+        ("company", "co"),
+        ("domain", "dom"),
+        ("slug", "sl"),
+        ("hq_city", "city"),
+        ("hq_state", "st"),
+        ("hq_country", "co2"),
+        ("region", "rg"),
+        ("priority", "pri"),
+        ("sector", "sec"),
+        ("revenue", "rev"),
+        ("employees_total", "emp"),
+        ("engineering_headcount", "eng"),
+        ("cto_name", "cto"),
+        ("cio_name", "cio"),
+        ("in_sd_or_denver_metro", "geo"),
+        ("seed_thesis_status", "th"),
+        ("near_match_notes", "nts"),
+        ("last_researched", "lst"),
+    ]
+    parts = []
+    for key, _ in keys_in_order:
+        parts.append(key + ':"' + picked[key] + '"')
+    return "{" + ", ".join(parts) + "}"
+
+
+SEED_PATH = ROOT / "data" / "accounts_seed.csv"
+
+
+def main():
+    with CSV_PATH.open() as f:
+        rd = csv.reader(f)
+        h = next(rd)
+        cols = {name: i for i, name in enumerate(h)}
+        rows = [pick(r, cols) for r in rd]
+
+    # region is in seed.csv (not in enriched.csv). Join by row order.
+    with SEED_PATH.open() as f:
+        sd = csv.reader(f)
+        seed_hdr = next(sd)
+        seed_idx = {name: i for i, name in enumerate(seed_hdr)}
+        seed_rows = list(sd)
+    assert len(seed_rows) == len(rows), "seed and enriched row counts differ: " + str(len(seed_rows)) + " vs " + str(len(rows))
+    for i in range(len(rows)):
+        rows[i]["region"] = safe(seed_rows[i][seed_idx["region"]])
+        rows[i]["priority"] = safe(seed_rows[i][seed_idx["priority"]])
+
+    rows_sorted = sorted(rows, key=lambda r: (r["account_id"] or ""))
+    dash_data_literal = "[\n    " + ",\n    ".join(to_json_literal(r) for r in rows_sorted) + "\n  ]"
+
+    html = HTML_TEMPLATE.replace("__DATA_PLACEHOLDER__", dash_data_literal)
+    OUT_PATH.write_text(html)
+    print(f"OK: dashboard written, {len(html)} chars, {len(rows)} rows")
+    # Sanity probe — same 17 fields per row
+    for r in rows:
+        assert r["account_id"], "missing account_id: " + repr(r)
+
+
+HTML_TEMPLATE = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -381,28 +486,7 @@
 
 <script>
   // Embedded data — mirrors data/accounts_enriched.csv with priority 1-5 (P1 = highest intent)
-  const DATA = [
-    {account_id:"A001", company:"Qualcomm", domain:"qualcomm.com", slug:"qualcomm", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"1", sector:"Semiconductors", revenue:"INFERRED", employees_total:"~52,000", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"HQ San Diego VERIFIED — https://en.wikipedia.org/wiki/Qualcomm (2026-06-30 snapshot); 52,000 employees 2025 per Macrotrends https://www.macrotrends.net/stocks/charts/QCOM/qualcomm/number-of-employees (2026-06-30); 60 layoffs in San Diego cited Apr 2026 https://www.sandiegouniontribune.com/2026/04/09/qualcomm-lays-off-dozens-of-s...; 2,228,747 LinkedIn followers https://www.linkedin.com/company/qua", last_researched:"2026-07-14"},
-    {account_id:"A002", company:"DaVita", domain:"davita.com", slug:"davita", hq_city:"Denver", hq_state:"CO", hq_country:"US", region:"Denver", priority:"1", sector:"Healthcare", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"Madhu Narasimhan", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"DaVita HQ Denver VERIFIED — https://en.wikipedia.org/wiki/DaVita (Wikipedia); 135 jobs in Denver listed at https://www.indeed.com/q-davita-l-denver,-co-jobs.html (Indeed); CIO Madhu Narasimhan appointed 2024-05-13 per DaVita press release (linked above). Initial thesis in seed references Sr Director of Transformation / legacy revenue-cycle GCP migration — not directly verified but strongly consist", last_researched:"2026-07-14"},
-    {account_id:"A003", company:"ResMed", domain:"resmed.com", slug:"resmed", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"1", sector:"Connected medical devices", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"Urvashi Tyagi", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"ResMed HQ San Diego VERIFIED — https://en.wikipedia.org/wiki/ResMed (Wikipedia 2026-06-26); 253,142 LinkedIn followers https://www.linkedin.com/company/resmed; CTO Urvashi Tyagi appointment per HME News (linked above). Careers at https://resmed.wd3.myworkdayjobs.com/ResMed_External_Careers. Initial seed thesis cites engineer reqs for traceable/auditable agentic AI in regulated environments — req i", last_researched:"2026-07-14"},
-    {account_id:"A004", company:"Western Union", domain:"westernunion.com", slug:"western-union", hq_city:"Denver", hq_state:"CO", hq_country:"US", region:"Denver", priority:"2", sector:"Payments", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Western Union operations hub Denver metro VERIFIED — https://www.linkedin.com/company/western-union (351,811 followers, 2026-03-09); 35 jobs currently in Denver at https://www.linkedin.com/jobs/western-union-jobs-denver-co; careers portal https://careers.westernunion.com/. Seed cites AS/400 mainframe + HCLTech AI-led partnership (Mar 2025) — direct primary sources not yet retrieved, INFERRED.", last_researched:"2026-07-14"},
-    {account_id:"A005", company:"LPL Financial", domain:"lpl.com", slug:"lpl-financial", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"2", sector:"Wealth management", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"CIO profiled at Profile Magazine", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"LPL HQ San Diego UTC (LEED Platinum) VERIFIED — https://www.lpl.com/about-us/careers/locations/san-diego.html (LPL 2026-04-01); CIO Profiled — 'How One CIO Takes Tech Beyond Widgets' (linked above) — describes platform modernization remit matching seed thesis. 253,049 LinkedIn followers https://www.linkedin.com/company/lpl-financial. Tech jobs https://career.lpl.com/c/technology-jobs. Seed cites ~", last_researched:"2026-07-14"},
-    {account_id:"A006", company:"Empower", domain:"empower.com", slug:"empower", hq_city:"Greenwood Village", hq_state:"CO", hq_country:"US", region:"Denver", priority:"2", sector:"Retirement services", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Empower HQ 8515 E Orchard Rd, Greenwood Village, CO 80111 VERIFIED — https://en.wikipedia.org/wiki/Empower_(financial_services) (Wikipedia 2026-06-24). 35 jobs currently in Greenwood Village https://www.linkedin.com/jobs/empower-retirement-jobs-greenwood-village-co. Press https://www.empower.com/press-center/empower-retirement-named-best-company-to (2018, stale). Seed flags legacy thesis as INFERR", last_researched:"2026-07-14"},
-    {account_id:"A007", company:"General Atomics", domain:"ga.com", slug:"general-atomics", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"3", sector:"Defense / UAV", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"General Atomics HQ San Diego VERIFIED — https://en.wikipedia.org/wiki/General_Atomics (Wikipedia 2026-06-15). 97,498 LinkedIn followers https://www.linkedin.com/company/general-atomics. 40 jobs currently in San Diego https://www.indeed.com/q-general-atomics-l-san-diego,-ca-jobs.html. Private company — direct headcount and engineering org not publicly disclosed (caution: long cycle per seed).", last_researched:"2026-07-14"},
-    {account_id:"A008", company:"EchoStar", domain:"echostar.com", slug:"echostar-dish", hq_city:"Englewood", hq_state:"CO", hq_country:"US", region:"Denver", priority:"3", sector:"Satellite & wireless", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"EchoStar HQ Englewood, CO VERIFIED — https://en.wikipedia.org/wiki/EchoStar (Wikipedia 2026-07-11). EchoStar completed merger with DISH Network 2024-01-02 per https://ir.echostar.com/news-releases/news-release-details/echostar-corporati... — DISH Network legacy operations also sit here. Domain split: echostar.com + dish.com. Reddit job signal https://www.reddit.com/r/Denver/comments/1shbmh6/data_a", last_researched:"2026-07-14"},
-    {account_id:"A009", company:"CSG Systems", domain:"csgsystems.com", slug:"csg-systems", hq_city:"Englewood", hq_state:"CO", hq_country:"US", region:"Denver", priority:"3", sector:"Telecom billing software", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"CSG HQ 169 Inverness Dr W Englewood, CO VERIFIED — https://en.wikipedia.org/wiki/CSG_Systems (Wikipedia 2026-06-20). Telecom BSS software. 54 CSG jobs currently in Colorado per https://www.indeed.com/q-Csg-Systems-l-Colorado-jobs.html. The 'cannot break existing carrier integrations' read from seed lines up with Wikipedia description (BSS software and services primarily to the telecommunications i", last_researched:"2026-07-14"},
-    {account_id:"A010", company:"Viasat", domain:"viasat.com", slug:"viasat", hq_city:"Carlsbad", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"3", sector:"Satellite comms", revenue:"INFERRED", employees_total:"~6,800", engineering_headcount:"INFERRED ~30-40%", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Viasat HQ Carlsbad, CA VERIFIED — https://careers.viasat.com/carlsbad (Viasat 2026-05-17); $4.6B revenue / 6,818 employees per https://rocketreach.co/viasat-inc-profile_b5c60f58f42e0c50 (RocketReach 2025-12); 211,589 LinkedIn followers https://www.linkedin.com/company/viasat. Engineering headcount as % of total is INFERRED at 30-40% (satcom hardware+firmware shop). Seed cites Inmarsat-acquisition ", last_researched:"2026-07-14"},
-    {account_id:"A011", company:"Illumina", domain:"illumina.com", slug:"illumina", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"3", sector:"Genomics", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Illumina HQ 5200 Illumina Way (formerly 5200 Research Pl) San Diego, CA 92122 VERIFIED — https://www.illumina.com/company/contact-us/locations.html. 626,759 LinkedIn followers https://www.linkedin.com/company/illumina. 141 jobs currently in San Diego https://www.ziprecruiter.com/Jobs/Illumina/-in-San-Diego,CA. Bayer-analogue read (FDA-regulated life sciences) consistent with seed.", last_researched:"2026-07-14"},
-    {account_id:"A012", company:"Trimble", domain:"trimble.com", slug:"trimble", hq_city:"Westminster", hq_state:"CO", hq_country:"US", region:"Denver", priority:"3", sector:"Geospatial software", revenue:"INFERRED", employees_total:"~11,000", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Trimble HQ Westminster, CO VERIFIED — https://en.wikipedia.org/wiki/Trimble_Inc. (Wikipedia 2026-06-27); $3.8B revenue / 11,051 employees https://rocketreach.co/trimble-inc-profile_b5c60dfaf42e0c52 (RocketReach 2025-10); 253,049 LinkedIn followers https://www.linkedin.com/company/trimble. Seed cites multiple acquisitions (B2W, Transporeon) creating inherited-codebase consolidation problem.", last_researched:"2026-07-14"},
-    {account_id:"A013", company:"Liberty Global", domain:"libertyglobal.com", slug:"liberty-global", hq_city:"Englewood", hq_state:"CO", hq_country:"US", region:"Denver", priority:"4", sector:"Telecom / broadband", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Liberty Global corporate domicile is Bermuda with HQ in London/Amsterdam, but US operations hub at 1550 Wewatta Street Denver CO 80202 / Englewood CO — https://www.yelp.com/biz/liberty-global-englewood. 100,115 LinkedIn followers https://www.linkedin.com/company/liberty-global. Caution per AGENTS.md geo rule: large campus without HQ means selling into someone else's budget — flag separately.", last_researched:"2026-07-14"},
-    {account_id:"A014", company:"Teradata", domain:"teradata.com", slug:"teradata", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"4", sector:"Data platform", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Teradata HQ 17095 Via Del Campo San Diego, CA 92127 VERIFIED — https://en.wikipedia.org/wiki/Teradata (Wikipedia 2026-05-15); founded 1979 in Brentwood, CA per Caltech/Citibank origination — multi-decade legacy core consistent with seed thesis (MongoDB-adjacent). 529,216 LinkedIn followers https://www.linkedin.com/company/teradata.", last_researched:"2026-07-14"},
-    {account_id:"A015", company:"Dexcom", domain:"dexcom.com", slug:"dexcom", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"4", sector:"Medical devices", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Dexcom HQ San Diego VERIFIED — Wikipedia + https://provider.dexcom.com. CGM domain expertise. Direct first-party GitHub org not surfaced in this research pass; https://github.com/api-evangelist/dexcom is a third-party API client (api-evangelist.org) — flagged INFERRED because it is not a Dexcom-published org. Seed Bayer-analogue read consistent.", last_researched:"2026-07-14"},
-    {account_id:"A016", company:"Arrow Electronics", domain:"arrow.com", slug:"arrow-electronics", hq_city:"Centennial", hq_state:"CO", hq_country:"US", region:"Denver", priority:"4", sector:"Electronics distribution", revenue:"INFERRED", employees_total:"~22,000", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Arrow Electronics HQ Centennial, CO VERIFIED — https://en.wikipedia.org/wiki/Arrow_Electronics (Wikipedia 2026-07-14). $29.7B revenue / 22,100 employees per https://rocketreach.co/arrow-electronics-profile_b5c61420f42e0c4d (RocketReach 2025-12). 384,100 LinkedIn followers https://www.linkedin.com/company/arrow-electronics. Seed cites ERP / supply-chain integration sprawl across 80 countries.", last_researched:"2026-07-14"},
-    {account_id:"A017", company:"Maxar / Vantor", domain:"vantor.com", slug:"maxar-vantor", hq_city:"Westminster", hq_state:"CO", hq_country:"US", region:"Denver", priority:"4", sector:"Geospatial / defense", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Maxar Intelligence rebranded to Vantor October 2025 — https://www.bizjournals.com/denver/news/2025/10/03/rebrand-for-denver-metro-l...; HQ 1300 W 120th Avenue Westminster CO per https://www.findglocal.com/US/Westminster/132015741288/Vantor. 51 jobs currently in Colorado https://www.indeed.com/q-maxar-technologies-l-colorado-jobs.html. Recently won $70M NGA geospatial contract https://www.bizjourna", last_researched:"2026-07-14"},
-    {account_id:"A018", company:"Kratos Defense", domain:"kratosdefense.com", slug:"kratos-defense", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"4", sector:"Defense technology", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Kratos HQ San Diego, CA VERIFIED — https://en.wikipedia.org/wiki/Kratos_Defense_&_Security_Solutions (Wikipedia 2026-04-18). NASDAQ:KTOS (public). 40,707 LinkedIn followers https://www.linkedin.com/company/kratos-defense-and-security-solutions. Valkyrie UAS program and Trolley Launch System are active engineering investments https://militaryembedded.com/company/kratos-defense (2026-07-06).", last_researched:"2026-07-14"},
-    {account_id:"A019", company:"Sempra / SDG&E", domain:"sdge.com", slug:"sempra-sdge", hq_city:"San Diego", hq_state:"CA", hq_country:"US", region:"San Diego", priority:"5", sector:"Utility", revenue:"INFERRED", employees_total:"INFERRED", engineering_headcount:"UNKNOWN", cto_name:"UNKNOWN", cio_name:"Ben Gordon", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"SDG&E HQ San Diego VERIFIED — https://en.wikipedia.org/wiki/San_Diego_Gas_&_Electric (Wikipedia 2026-06-11). 3.7M consumers served per Wikipedia. CIO and CDO Ben Gordon per LinkedIn https://www.linkedin.com/in/benwgordon (2022-12-22). Cloud-first CIO narrative consistent with seed SCADA/metering/modernization thesis https://www.cio.com/article/307205/sdge-seeks-speed-advantage-in-the-cloud.html (C", last_researched:"2026-07-14"},
-    {account_id:"A020", company:"Zayo Group", domain:"zayo.com", slug:"zayo-group", hq_city:"Denver", hq_state:"CO", hq_country:"US", region:"Denver", priority:"5", sector:"Fiber infrastructure", revenue:"INFERRED", employees_total:"~3,800", engineering_headcount:"UNKNOWN", cto_name:"Steve Smith", cio_name:"UNKNOWN", in_sd_or_denver_metro:"YES_IN_TARGET", seed_thesis_status:"VERIFIED", near_match_notes:"Zayo Group HQ Denver, CO VERIFIED — https://en.wikipedia.org/wiki/Zayo_Group (Wikipedia 2026-06-16). PE-owned. $1.1B revenue / 3,781 employees https://rocketreach.co/zayo-group-profile_b5ce03c0f42e0915 (RocketReach 2025-12). Leadership per https://rocketreach.co/zayo-group-management_b5ce03c0f42e0915 — Steve Smith (CEO), Kevin Turner (Chairman), Chris Brown (President and COO); dates not separatel", last_researched:"2026-07-14"}
-  ];
+  const DATA = __DATA_PLACEHOLDER__;
 
   // ---------- state ----------
   const state = {
@@ -418,7 +502,7 @@
   const PRIORITIES = ["All", "1", "2", "3", "4", "5"];
   const PRIORITY_PILL_CLASS = {"1":"p1","2":"p2","3":"p3","4":"p4","5":"p5"};
 
-  function isNA(v){ return v == null || v === "" || v === "UNKNOWN" || v === "INFERRED" || typeof v === "undefined"; }
+  function isNA(v){ return v === "UNKNOWN" || v == null || v === "" || typeof v === "undefined"; }
   function fmt(v){ return isNA(v) ? "n/a" : v; }
   function fmtNum(v){
     if (v == null || v === "" || v === "UNKNOWN") return "n/a";
@@ -642,10 +726,8 @@
   }
 
   // ---------- Table ----------
-  const SORT_NUMERIC_COLS = new Set(["employees_total", "engineering_headcount"]);
   function sortRows(rows){
     const col = state.sortCol, dir = state.sortDir === "asc" ? 1 : -1;
-    const numeric = SORT_NUMERIC_COLS.has(col);
     return rows.slice().sort(function(a,b){
       const av = a[col], bv = b[col];
       const aNA = isNA(av);
@@ -653,13 +735,6 @@
       if (aNA && bNA) return 0;
       if (aNA) return 1;
       if (bNA) return -1;
-      if (numeric){
-        const an = parseNumeric(av) || 0;
-        const bn = parseNumeric(bv) || 0;
-        if (an < bn) return -1 * dir;
-        if (an > bn) return 1 * dir;
-        return 0;
-      }
       const aS = String(av).toLowerCase();
       const bS = String(bv).toLowerCase();
       if (aS < bS) return -1 * dir;
@@ -828,3 +903,8 @@
 </script>
 </body>
 </html>
+"""
+
+
+if __name__ == "__main__":
+    main()
